@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passeport Talent Checker — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav no-print"><div class="wrap">
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/fr/guide">France guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head">
+    <h1>🛂 Passeport Talent Checker</h1>
+    <p class="muted">France's main skilled-worker routes, checked against the official 2026 thresholds. General information only — not legal advice. Verify at <strong>service-public.gouv.fr</strong> (fiche F16922).</p>
+  </div>
+  <div class="card" style="max-width:640px">
+    <label>Gross annual salary of your offer (€)
+      <input type="number" id="p_salary" placeholder="45000" min="0"></label>
+    <label>Your highest diploma
+      <select id="p_diploma">
+        <option value="fr_master">Master (or higher) obtained in France</option>
+        <option value="foreign_master">Master (or higher) obtained abroad</option>
+        <option value="bachelor">Bachelor / 3+ years higher education</option>
+        <option value="other">Other / no higher-education diploma</option>
+      </select></label>
+    <label>Years of relevant professional experience
+      <input type="number" id="p_exp" placeholder="5" min="0"></label>
+    <label>Contract duration (months)
+      <input type="number" id="p_contract" placeholder="12" min="0"></label>
+    <label>Employer type
+      <select id="p_employer">
+        <option value="regular">Regular French employer</option>
+        <option value="innovative">Innovative company (jeune entreprise innovante / reconnu innovante)</option>
+        <option value="intragroup">Intra-group transfer (foreign company → French entity)</option>
+      </select></label>
+    <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="p_shortage" style="width:auto"> My role is on the shortage-occupation list</label>
+    <p><button class="btn primary" id="calcBtn">Check my eligibility</button></p>
+  </div>
+  <div id="result" style="max-width:640px;margin-top:20px"></div>
+  <div class="card" style="max-width:640px;margin-top:20px">
+    <h3>Official 2026 thresholds</h3>
+    <ul>
+      <li><strong>Passeport Talent « salarié qualifié »</strong> — gross salary ≥ <strong>€39,582/year</strong>, French master-level diploma, contract &gt; 3 months.</li>
+      <li><strong>Passeport Talent « entreprise innovante / salarié en mission »</strong> — same €39,582 threshold; innovative employer or intra-group mobility.</li>
+      <li><strong>EU Blue Card (carte bleue européenne)</strong> — gross salary ≥ <strong>€59,373/year</strong> (1.5× the reference salary), diploma of 3+ years higher education <em>or</em> 5 years relevant experience (3 years in the last 7 for shortage roles), contract ≥ 6 months.</li>
+    </ul>
+    <p class="muted small">Source: service-public.gouv.fr, fiche F16922 (verified June 2026). Thresholds set by arrêté of 29 August 2025 — fixed euro amounts, no longer SMIC multiples.</p>
+  </div>
+</div>
+<script src="/js/fr-passeport.js"></script>
+</body>
+</html>

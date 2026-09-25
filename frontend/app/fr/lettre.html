@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lettre de motivation — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav no-print"><div class="wrap">
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/fr/guide">France guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head no-print">
+    <h1>Lettre de motivation</h1>
+    <p class="muted">French business-letter format, with the classic "vous / je / nous" structure recruiters expect. Keep it to one page.</p>
+    <div class="toolbar">
+      <button class="btn primary" onclick="window.print()">Export PDF / Print</button>
+      <button class="btn" id="fillSample">Load sample</button>
+    </div>
+  </div>
+  <div class="builder">
+    <div class="builder-form no-print">
+      <div class="card"><h3>Expéditeur — your details</h3>
+        <label>Full name <input type="text" id="c_name"></label>
+        <div class="row"><label>Street <input type="text" id="c_street"></label><label>City, Country <input type="text" id="c_city"></label></div>
+        <div class="row"><label>Phone <input type="text" id="c_phone"></label><label>Email <input type="email" id="c_email"></label></div>
+      </div>
+      <div class="card"><h3>Destinataire — recipient</h3>
+        <label>Company <input type="text" id="c_company"></label>
+        <label>Contact person <span class="hint">(optional — "Madame Dupont" / "Monsieur Martin")</span><input type="text" id="c_contact"></label>
+        <div class="row"><label>Street <input type="text" id="c_cstreet"></label><label>City <input type="text" id="c_ccity"></label></div>
+      </div>
+      <div class="card"><h3>Le poste — the position</h3>
+        <label>Job title <input type="text" id="c_role" placeholder="Consultant SAP SuccessFactors"></label>
+        <label>Where you found the ad <input type="text" id="c_source" placeholder="Welcome to the Jungle, le 20 septembre 2026"></label>
+        <label>« Vous » — why this company <span class="hint">(2–3 sentences: what attracts you to them)</span>
+        <textarea id="c_vous" placeholder="Votre engagement pour la transformation RH des ETI…"></textarea></label>
+        <label>« Je » — why you <span class="hint">(2–3 sentences: your experience and fit)</span>
+        <textarea id="c_je" placeholder="Forte de 8 ans d'expérience…"></textarea></label>
+        <label>Your 2–3 strongest qualifications <span class="hint">(one per line)</span>
+        <textarea id="c_strengths" placeholder="8 ans SAP SuccessFactors EC & Recrutement&#10;5 implémentations complètes pilotées"></textarea></label>
+        <label>Availability <input type="text" id="c_start" placeholder="Disponible à partir de janvier 2027"></label>
+        <div class="row"><label>Place <input type="text" id="c_place" placeholder="Bengaluru"></label><label>Date <input type="text" id="c_date" placeholder="25 septembre 2026"></label></div>
+      </div>
+    </div>
+    <div class="preview-wrap"><div class="a4"><div class="letter" id="letterPreview"></div></div></div>
+  </div>
+</div>
+<script src="/js/fr-lettre.js"></script>
+</body>
+</html>

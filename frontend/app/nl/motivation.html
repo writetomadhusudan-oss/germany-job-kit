@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motivatiebrief Generator — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav no-print"><div class="wrap">
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/nl/guide">Netherlands guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head no-print">
+    <h1>Motivatiebrief — Motivation Letter</h1>
+    <p class="muted">Dutch motivation letters are short, direct and to the point — one page, formal but not flowery. Fill in the form and your letter updates live.</p>
+    <div class="toolbar">
+      <button class="btn primary" onclick="window.print()">Export PDF / Print</button>
+      <button class="btn" id="fillSample">Load sample</button>
+    </div>
+  </div>
+  <div class="builder">
+    <div class="builder-form no-print">
+      <div class="card"><h3>Your details</h3>
+        <label>Full name <input type="text" id="c_name"></label>
+        <div class="row"><label>Street <input type="text" id="c_street"></label><label>City, Country <input type="text" id="c_city"></label></div>
+        <div class="row"><label>Phone <input type="text" id="c_phone"></label><label>Email <input type="email" id="c_email"></label></div>
+      </div>
+      <div class="card"><h3>Recipient</h3>
+        <label>Company <input type="text" id="c_company"></label>
+        <label>Contact person <span class="hint">(optional — e.g. "Mw. Jansen" / "Dhr. de Vries")</span><input type="text" id="c_contact"></label>
+      </div>
+      <div class="card"><h3>The position</h3>
+        <label>Job title <input type="text" id="c_role" placeholder="SAP SuccessFactors Consultant"></label>
+        <label>Where you found the ad <input type="text" id="c_source" placeholder="LinkedIn, 20 September 2026"></label>
+        <label>Why this company <span class="hint">(2–3 sentences: what attracts you to them)</span>
+        <textarea id="c_why" placeholder="Your commitment to digital HR transformation…"></textarea></label>
+        <label>Why you <span class="hint">(2–3 sentences: your experience and fit)</span>
+        <textarea id="c_you" placeholder="8 years as an SAP SuccessFactors consultant…"></textarea></label>
+        <label>Your 2–3 strongest qualifications <span class="hint">(one per line)</span>
+        <textarea id="c_strengths" placeholder="8 years SAP SuccessFactors EC & Recruiting&#10;5 full-cycle implementations led"></textarea></label>
+        <label>Availability <input type="text" id="c_start" placeholder="Available from January 2027"></label>
+        <div class="row"><label>Place <input type="text" id="c_place" placeholder="Bengaluru"></label><label>Date <input type="text" id="c_date" placeholder="25 September 2026"></label></div>
+      </div>
+    </div>
+    <div class="preview-wrap"><div class="a4"><div class="letter" id="letterPreview"></div></div></div>
+  </div>
+</div>
+<script src="/js/nl-motivation.js"></script>
+</body>
+</html>

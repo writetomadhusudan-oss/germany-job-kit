@@ -1,4 +1,4 @@
-"""Germany Job Kit — FastAPI backend.
+"""Global Job Kit — FastAPI backend.
 
 Serves the static frontend, handles payments through a pluggable provider
 interface (Dodo Payments by default via the official Dodo SDK; Stripe
@@ -49,6 +49,15 @@ STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "").strip()
 # --- Dodo Payments (default provider) ---
 DODO_PAYMENTS_API_KEY = os.getenv("DODO_PAYMENTS_API_KEY", "").strip()
 DODO_PRODUCT_ID = os.getenv("DODO_PRODUCT_ID", "").strip()
+# Regional products: one Dodo product per checkout currency (all unlock the
+# same Global Job Kit license). Falls back to DODO_PRODUCT_ID when unset.
+DODO_PRODUCT_IDS = {
+    "EUR": os.getenv("DODO_PRODUCT_ID_EUR", "").strip(),
+    "CAD": os.getenv("DODO_PRODUCT_ID_CAD", "").strip(),
+    "AUD": os.getenv("DODO_PRODUCT_ID_AUD", "").strip(),
+    "GBP": os.getenv("DODO_PRODUCT_ID_GBP", "").strip(),
+    "INR": os.getenv("DODO_PRODUCT_ID_INR", "").strip(),
+}
 DODO_PAYMENTS_ENVIRONMENT = os.getenv(
     "DODO_PAYMENTS_ENVIRONMENT", "test_mode").strip().lower()
 DODO_PAYMENTS_WEBHOOK_SECRET = os.getenv(
@@ -62,7 +71,7 @@ DEV_BYPASS_PAYWALL = os.getenv("DEV_BYPASS_PAYWALL", "false").lower() == "true"
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./germany_job_kit.db")
 
 PRICE_CENTS = 599  # €5.99
-PRODUCT_NAME = "Germany Job Kit — Lifetime Access"
+PRODUCT_NAME = "Global Job Kit — Lifetime Access"
 COOKIE_NAME = "gjk_access"
 
 if STRIPE_SECRET_KEY:
@@ -274,14 +283,16 @@ class DodoProvider(PaymentProvider):
         if not DODO_PAYMENTS_API_KEY:
             raise ProviderNotConfigured(
                 "Dodo Payments is not configured. Set DODO_PAYMENTS_API_KEY "
-                "(Dashboard → Developer → API keys) and DODO_PRODUCT_ID "
-                "(your €5.99 one-time product). See README, "
-                "'Dodo Payments (default)'.")
+                "(Dashboard → Developer → API keys) and at least one product "
+                "id (DODO_PRODUCT_ID or DODO_PRODUCT_ID_EUR/_CAD/_AUD/_GBP/"
+                "_INR). See README, 'Dodo Payments (default)'.")
         if not DODO_PRODUCT_ID:
-            raise ProviderNotConfigured(
-                "DODO_PRODUCT_ID is not set. Create a €5.99 one-time product "
-                "in the Dodo dashboard and paste its product id (pdt_...). "
-                "See README, 'Dodo Payments (default)'.")
+            if not any(DODO_PRODUCT_IDS.values()):
+                raise ProviderNotConfigured(
+                    "No Dodo product is set. Create one-time products in the "
+                    "Dodo dashboard and set DODO_PRODUCT_ID (single product) "
+                    "or DODO_PRODUCT_ID_EUR/_CAD/_AUD/_GBP/_INR (regional "
+                    "products). See README, 'Dodo Payments (default)'.")
         if DODO_PAYMENTS_ENVIRONMENT not in ("test_mode", "live_mode"):
             raise ProviderNotConfigured(
                 "DODO_PAYMENTS_ENVIRONMENT must be 'test_mode' or "
@@ -289,20 +300,21 @@ class DodoProvider(PaymentProvider):
         return DodoPayments(bearer_token=DODO_PAYMENTS_API_KEY,
                             environment=DODO_PAYMENTS_ENVIRONMENT)
 
-    def create_checkout(self, success_url: str, cancel_url: str) -> str:
+    def create_checkout(self, success_url: str, cancel_url: str, product_id: str = "") -> str:
         # Static payment-link fallback (Dashboard → Products → share link),
         # useful when you only have a dashboard link and no API key.
-        if (not DODO_PAYMENTS_API_KEY or not DODO_PRODUCT_ID) \
+        product_id = product_id or DODO_PRODUCT_ID
+        if (not DODO_PAYMENTS_API_KEY or not product_id) \
                 and PROVIDER_CHECKOUT_URL:
             return PROVIDER_CHECKOUT_URL
         client = self._client()
         try:
             session = client.checkout_sessions.create(
-                product_cart=[{"product_id": DODO_PRODUCT_ID, "quantity": 1}],
+                product_cart=[{"product_id": product_id, "quantity": 1}],
                 return_url=success_url,
                 cancel_url=cancel_url,
                 minimal_address=True,  # faster checkout: country + ZIP only
-                metadata={"product": "germany-job-kit"},
+                metadata={"product": "global-job-kit"},
             )
         except Exception as e:
             raise ProviderError(f"Dodo checkout failed: {e}")
@@ -407,7 +419,7 @@ def _build_provider() -> PaymentProvider:
 provider = _build_provider()
 
 # ---------------------------------------------------------------- app ----
-app = FastAPI(title="Germany Job Kit")
+app = FastAPI(title="Global Job Kit")
 
 app.mount("/css", StaticFiles(directory=os.path.join(FRONTEND_DIR, "css")), name="css")
 app.mount("/js", StaticFiles(directory=os.path.join(FRONTEND_DIR, "js")), name="js")
@@ -420,6 +432,31 @@ APP_PAGES = {
     "blue-card": "blue-card.html",
     "tracker": "tracker.html",
     "guide": "guide.html",
+    # France kit
+    "fr/cv": "fr/cv.html",
+    "fr/lettre": "fr/lettre.html",
+    "fr/passeport-talent": "fr/passeport-talent.html",
+    "fr/guide": "fr/guide.html",
+    # Canada kit
+    "ca/resume": "ca/resume.html",
+    "ca/cover-letter": "ca/cover-letter.html",
+    "ca/crs": "ca/crs.html",
+    "ca/guide": "ca/guide.html",
+    # Australia kit
+    "au/resume": "au/resume.html",
+    "au/cover-letter": "au/cover-letter.html",
+    "au/skillselect": "au/skillselect.html",
+    "au/guide": "au/guide.html",
+    # UK kit
+    "uk/cv": "uk/cv.html",
+    "uk/cover-letter": "uk/cover-letter.html",
+    "uk/skilled-worker": "uk/skilled-worker.html",
+    "uk/guide": "uk/guide.html",
+    # Netherlands kit
+    "nl/cv": "nl/cv.html",
+    "nl/motivation": "nl/motivation.html",
+    "nl/hsm": "nl/hsm.html",
+    "nl/guide": "nl/guide.html",
 }
 
 
@@ -444,7 +481,7 @@ def app_hub(request: Request):
     return _page(APP_PAGES[""])
 
 
-@app.get("/app/{page}")
+@app.get("/app/{page:path}")
 def app_page(page: str, request: Request):
     if page not in APP_PAGES or page == "":
         return JSONResponse({"error": "not found"}, status_code=404)
@@ -455,12 +492,31 @@ def app_page(page: str, request: Request):
 
 # -------------------------------------------------------------- payments --
 @app.post("/api/checkout")
-def create_checkout():
+async def create_checkout(request: Request):
+    # Optional JSON body: {"currency": "EUR"|"CAD"|"AUD"|"GBP"|"INR"} — picks
+    # the regional Dodo product so buyers check out in their local currency.
+    # Never accept a raw product id from the browser: only the allowlist.
+    currency = "EUR"
     try:
-        url = provider.create_checkout(
-            success_url=f"{APP_BASE_URL}/success",
-            cancel_url=f"{APP_BASE_URL}/#pricing")
-        return {"url": url, "provider": provider.name}
+        body = await request.json()
+        if isinstance(body, dict) and body.get("currency"):
+            currency = str(body["currency"]).upper()
+    except Exception:
+        pass
+    if currency not in DODO_PRODUCT_IDS:
+        return JSONResponse({"error": "Unsupported currency."}, status_code=400)
+    product_id = DODO_PRODUCT_IDS[currency] or DODO_PRODUCT_ID
+    try:
+        if isinstance(provider, DodoProvider):
+            url = provider.create_checkout(
+                success_url=f"{APP_BASE_URL}/success",
+                cancel_url=f"{APP_BASE_URL}/#pricing",
+                product_id=product_id)
+        else:
+            url = provider.create_checkout(
+                success_url=f"{APP_BASE_URL}/success",
+                cancel_url=f"{APP_BASE_URL}/#pricing")
+        return {"url": url, "provider": provider.name, "currency": currency}
     except ProviderNotConfigured as e:
         return JSONResponse({"error": str(e)}, status_code=503)
     except ProviderError as e:
@@ -534,10 +590,10 @@ def _success_page_inner(body_html: str, key: str | None) -> HTMLResponse:
     page = f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Payment successful — Germany Job Kit</title>
+<title>Payment successful — Global Job Kit</title>
 <link rel="stylesheet" href="/css/style.css"></head>
 <body><div class="wrap narrow">
-<header class="topbar"><a class="brand" href="/">Germany <span>Job Kit</span></a></header>
+<header class="topbar"><a class="brand" href="/">Global <span>Job Kit</span></a></header>
 <main class="card center">
 <h1>Payment successful</h1>
 {body_html}

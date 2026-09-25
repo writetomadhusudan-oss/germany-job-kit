@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skilled Worker Checker — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav"><div class="wrap">
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/uk/guide">UK guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head">
+    <h1>🛂 UK Skilled Worker Salary Checker</h1>
+    <p class="muted">Check a job offer against the UK Skilled Worker salary rules <strong>in force since 22 July 2025</strong> (current September 2026). Simplified checker — always verify at <strong>gov.uk</strong> before acting. Not legal advice.</p>
+  </div>
+  <div class="card" style="max-width:900px">
+    <h3>The offer</h3>
+    <div class="row">
+      <label>Offered annual salary (£) <span class="hint">(guaranteed basic gross pay only — bonuses, equity and overtime do NOT count)</span>
+        <input type="number" id="sw_salary" placeholder="45000" min="0"></label>
+      <label>Usual weekly hours <input type="number" id="sw_hours" value="37.5" min="1" max="60"></label>
+    </div>
+    <label>Occupation "going rate" (£) <span class="hint">(find your occupation's going rate in the official table at <a href="https://www.gov.uk/skilled-worker-visa/your-job" target="_blank" rel="noopener">gov.uk/skilled-worker-visa/your-job</a> — it depends on the SOC code)</span>
+      <input type="number" id="sw_going" placeholder="53000" min="0"></label>
+  </div>
+  <div class="card" style="max-width:900px">
+    <h3>Your situation</h3>
+    <div class="row">
+      <label>Is the job at RQF level 6 (degree level) or above? <span class="hint">(required since 22 July 2025)</span>
+        <select id="sw_rqf6"><option value="yes">Yes</option><option value="no">No</option></select></label>
+      <label>Are you a "new entrant"? <span class="hint">(under 26, or recent UK graduate, or working towards a recognised professional qualification — discount valid for max 4 years)</span>
+        <select id="sw_newentrant"><option value="no">No</option><option value="yes">Yes</option></select></label>
+    </div>
+    <div class="row">
+      <label>Relevant PhD? <select id="sw_phd">
+        <option value="none">No PhD relevant to the job</option>
+        <option value="stem">STEM PhD relevant to the job (80% of going rate)</option>
+        <option value="nonstem">Non-STEM PhD relevant to the job (90% of going rate)</option>
+      </select></label>
+      <label>Is the job on the Immigration Salary List? <span class="hint">(IT SOC codes like 2134 programmers/software developers, 2133 IT business analysts, 2135 cybersecurity are NOT on the list — most IT applicants answer No)</span>
+        <select id="sw_isl"><option value="no">No</option><option value="yes">Yes</option></select></label>
+    </div>
+  </div>
+  <p style="max-width:900px"><button class="btn primary" id="calcBtn">Check eligibility</button></p>
+  <div id="result" style="max-width:900px"></div>
+  <div class="card" style="max-width:900px;margin-top:20px">
+    <h3>Reference — salary rules since 22 July 2025</h3>
+    <ul>
+      <li><strong>Standard route:</strong> £41,700/year <em>or</em> the occupation's going rate — <strong>whichever is higher</strong>.</li>
+      <li><strong>Discounted floor:</strong> £33,400/year (non-STEM PhD: £37,500) — only with a valid discount.</li>
+      <li><strong>Hourly floor:</strong> £17.13/hour, on guaranteed basic gross pay.</li>
+      <li><strong>Skill level:</strong> job must be RQF 6 (degree level) or above.</li>
+      <li><strong>English:</strong> B1 required; some 2026 sources report B2 from 8 January 2026 — <strong>verify on gov.uk</strong>.</li>
+      <li>Your sponsor must be a licensed Home Office sponsor; the role must be genuine.</li>
+    </ul>
+    <p class="muted small">IT SOC codes (2134 programmers/software developers, 2133 IT business analysts, 2135 cybersecurity) are not on the Immigration Salary List — IT applicants normally use the standard £41,700/going-rate test or the new-entrant discount. Source: gov.uk, September 2026. Thresholds change — re-verify before applying.</p>
+  </div>
+</div>
+<script src="/js/uk-skilled.js"></script>
+</body>
+</html>

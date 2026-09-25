@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SkillSelect Points Calculator — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav"><div class="wrap">
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/au/guide">Australia guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head">
+    <h1>🦘 SkillSelect Points Calculator</h1>
+    <p class="muted">Estimate your Australian skilled-migration points score for subclasses 189 / 190 / 491. <strong>Simplified estimate</strong> — verify with the official points test on <strong>immi.homeaffairs.gov.au</strong> before acting. Not legal advice.</p>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;max-width:900px">
+    <div class="card">
+      <h3>Age (at time of invitation)</h3>
+      <label>Age <input type="number" id="ss_age" placeholder="30" min="18" max="60"></label>
+      <h3 style="margin-top:16px">English language ability</h3>
+      <label>English level
+        <select id="ss_english">
+          <option value="0">Competent — IELTS 6.0+ in each band (or PTE equivalent)</option>
+          <option value="10">Proficient — IELTS 7.0+ in each band (or PTE equivalent)</option>
+          <option value="20">Superior — IELTS 8.0+ in each band (or PTE equivalent)</option>
+        </select></label>
+      <h3 style="margin-top:16px">Skilled employment (last 10 years)</h3>
+      <label>Overseas employment (outside Australia)
+        <select id="ss_overseas">
+          <option value="0">Under 3 years</option>
+          <option value="5">3–5 years</option>
+          <option value="10">5–8 years</option>
+          <option value="15">8+ years</option>
+        </select></label>
+      <label>Australian employment (in Australia)
+        <select id="ss_ausexp">
+          <option value="0">Under 1 year</option>
+          <option value="5">1–3 years</option>
+          <option value="10">3–5 years</option>
+          <option value="15">5–8 years</option>
+          <option value="20">8+ years</option>
+        </select></label>
+      <p class="muted small">Employment points are combined and capped at 20.</p>
+      <h3 style="margin-top:16px">Qualifications (highest only)</h3>
+      <label>Highest recognised qualification
+        <select id="ss_qual">
+          <option value="0">None of the below</option>
+          <option value="10">Australian Diploma or trade qualification</option>
+          <option value="10">Other recognised qualification</option>
+          <option value="15" selected>Bachelor or Master degree</option>
+          <option value="20">Doctorate (PhD)</option>
+        </select></label>
+    </div>
+    <div class="card">
+      <h3>Australian study &amp; other factors</h3>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="ss_spec" style="width:auto"> Specialist education — research Masters/Doctorate in STEM or ICT from an Australian institution (≥2 academic years) (+10)</label>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="ss_ausstudy" style="width:auto"> Australian study requirement met — 2+ academic years of study in Australia</label>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="ss_regional" style="width:auto"> Studied &amp; lived in a regional/low-population-growth area while meeting the study requirement</label>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="ss_proyear" style="width:auto"> Completed a Professional Year in Australia (accounting / ICT / engineering)</label>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="ss_naati" style="width:auto"> Credentialled community language (NAATI-accredited)</label>
+      <h3 style="margin-top:16px">Partner</h3>
+      <label>Partner status
+        <select id="ss_partner">
+          <option value="10" selected>Single, or partner is an Australian citizen/permanent resident</option>
+          <option value="10">Partner under 45, competent English + positive skills assessment in a skilled occupation</option>
+          <option value="5">Partner with competent English only (under 45)</option>
+          <option value="0">None of the above</option>
+        </select></label>
+      <h3 style="margin-top:16px">Nomination</h3>
+      <label>State/territory nomination
+        <select id="ss_nom">
+          <option value="0" selected>None (subclass 189)</option>
+          <option value="5">Skilled Nominated visa — subclass 190 (+5)</option>
+          <option value="15">Skilled Work Regional visa — subclass 491 (+15)</option>
+        </select></label>
+    </div>
+  </div>
+  <p style="max-width:900px"><button class="btn primary" id="calcBtn">Calculate my points</button></p>
+  <div id="result" style="max-width:900px"></div>
+  <div class="card" style="max-width:900px;margin-top:20px">
+    <h3>How the points test works (reference only)</h3>
+    <ul>
+      <li>The minimum to lodge an Expression of Interest (EOI) is <strong>65 points</strong> — but invitation rounds are competitive.</li>
+      <li>ICT and engineering occupations typically need <strong>~85–95+ points</strong> to be invited (4 June 2026 invitation round); invitations went to the highest scorers first.</li>
+      <li><strong>189</strong> is the independent visa (no sponsor needed). <strong>190</strong> adds 5 points with state nomination. <strong>491</strong> adds 15 points but is regional and provisional.</li>
+      <li>Skills assessment from the relevant authority (e.g. ACS for ICT) and a valid English test (≤3 years old) are mandatory before you can be invited.</li>
+      <li>Note: a 2026 points-test reform has been proposed but <strong>not enacted as of September 2026</strong> — the table above is the current test.</li>
+    </ul>
+    <p class="muted small">Source: Department of Home Affairs — <a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skilled-independent-189/points-tested" target="_blank" rel="noopener">Points-tested stream (subclass 189)</a>. Figures checked September 2026; re-verify before applying. General information only — not legal advice.</p>
+  </div>
+</div>
+<script src="/js/au-skillselect.js"></script>
+</body>
+</html>

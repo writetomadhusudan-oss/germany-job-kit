@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRS Calculator — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav"><div class="wrap">
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/ca/guide">Canada guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head">
+    <h1>🍁 Express Entry CRS Calculator</h1>
+    <p class="muted">Estimate your Comprehensive Ranking System score (max 1,200). Simplified calculator — verify with IRCC's official tool at <strong>canada.ca</strong> before acting. Not legal advice.</p>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px;max-width:900px">
+    <div class="card">
+      <h3>You</h3>
+      <label>Age <input type="number" id="crs_age" placeholder="30" min="16" max="60"></label>
+      <label>Marital status
+        <select id="crs_marital">
+          <option value="single">Single / not accompanying spouse</option>
+          <option value="spouse">Married/common-law, spouse accompanying</option>
+        </select></label>
+      <label>Highest education
+        <select id="crs_edu">
+          <option value="secondary">Secondary school diploma</option>
+          <option value="yr1">1-year post-secondary program</option>
+          <option value="yr2">2-year post-secondary program</option>
+          <option value="bachelor" selected>Bachelor's degree (3+ years)</option>
+          <option value="twoplus">Two or more credentials (one 3+ years)</option>
+          <option value="master">Master's / professional degree</option>
+          <option value="phd">PhD (Doctorate)</option>
+        </select></label>
+      <label>Canadian work experience
+        <select id="crs_canexp">
+          <option value="0">None</option><option value="1">1 year</option><option value="2">2 years</option>
+          <option value="3">3 years</option><option value="4">4 years</option><option value="5">5+ years</option>
+        </select></label>
+      <label>Foreign work experience (skilled)
+        <select id="crs_forexp">
+          <option value="0">None / under 1 year</option><option value="1">1–2 years</option><option value="3" selected>3+ years</option>
+        </select></label>
+    </div>
+    <div class="card">
+      <h3>First official language (English or French)</h3>
+      <div class="row">
+        <label>Reading (CLB) <select class="crs_clb"><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option></select></label>
+        <label>Writing (CLB) <select class="crs_clb"><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option></select></label>
+      </div>
+      <div class="row">
+        <label>Speaking (CLB) <select class="crs_clb"><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option></select></label>
+        <label>Listening (CLB) <select class="crs_clb"><option>4</option><option>5</option><option>6</option><option>7</option><option selected>8</option><option>9</option><option>10</option></select></label>
+      </div>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="crs_lang2" style="width:auto"> Second official language at CLB 5+ in all four abilities</label>
+      <h3 style="margin-top:16px">Additional</h3>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="crs_pnp" style="width:auto"> Provincial nomination (PNP) — 600 pts</label>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="crs_french" style="width:auto"> French NCLC 7+ in all four abilities</label>
+      <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="crs_sibling" style="width:auto"> Sibling in Canada (citizen/PR, 18+)</label>
+      <label>Canadian post-secondary credential
+        <select id="crs_canedu"><option value="0">None</option><option value="15">1–2 year program</option><option value="30">3+ year program</option></select></label>
+    </div>
+  </div>
+  <div class="card" id="spouseCard" style="max-width:900px;margin-top:16px;display:none">
+    <h3>Accompanying spouse / partner</h3>
+    <div class="row">
+      <label>Spouse education
+        <select id="crs_spedu"><option value="0">Secondary or less</option><option value="6">1-year post-secondary</option><option value="7">2-year post-secondary</option><option value="8" selected>Bachelor's</option><option value="9">Two+ credentials</option><option value="10">Master's / PhD</option></select></label>
+      <label>Spouse first language
+        <select id="crs_splang"><option value="0">Below CLB 7</option><option value="10">CLB 7–8 (all four)</option><option value="20">CLB 9+ (all four)</option></select></label>
+      <label>Spouse Canadian work experience
+        <select id="crs_spexp"><option value="0">None</option><option value="10">1+ year</option></select></label>
+    </div>
+  </div>
+  <p style="max-width:900px"><button class="btn primary" id="calcBtn">Calculate my CRS score</button></p>
+  <div id="result" style="max-width:900px"></div>
+  <div class="card" style="max-width:900px;margin-top:20px">
+    <h3>Recent draw cutoffs (reference only)</h3>
+    <ul>
+      <li>Canadian Experience Class — around <strong>515–523</strong> (Sept 2026)</li>
+      <li>French-language proficiency — around <strong>380–400</strong> (2026)</li>
+      <li>Provincial Nominee Program — around <strong>700–805</strong> (2026)</li>
+    </ul>
+    <p class="muted small">Cutoffs change every draw and IRCC now runs targeted rounds (no general draws in 2026). A job offer adds <strong>0</strong> CRS points since March 2025. Source: IRCC rounds of invitations, canada.ca.</p>
+  </div>
+</div>
+<script src="/js/ca-crs.js"></script>
+</body>
+</html>

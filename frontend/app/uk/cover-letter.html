@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cover Letter Generator — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav no-print"><div class="wrap">
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/uk/guide">UK guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head no-print">
+    <h1>Cover Letter Generator — UK</h1>
+    <p class="muted">UK business-letter format, with the structure British hiring managers expect. Keep it to one page — concise and to the point.</p>
+    <div class="toolbar">
+      <button class="btn primary" onclick="window.print()">Export PDF / Print</button>
+      <button class="btn" id="fillSample">Load sample</button>
+    </div>
+  </div>
+  <div class="builder">
+    <div class="builder-form no-print">
+      <div class="card"><h3>Your details</h3>
+        <label>Full name <input type="text" id="c_name"></label>
+        <div class="row"><label>Your address <input type="text" id="c_addr" placeholder="12 Baker Street, London NW1 6XE"></label><label>Phone <input type="text" id="c_phone"></label></div>
+        <div class="row"><label>Email <input type="email" id="c_email"></label><label>LinkedIn <input type="text" id="c_linkedin"></label></div>
+      </div>
+      <div class="card"><h3>Recipient</h3>
+        <label>Hiring manager name <span class="hint">(optional — "Ms Lee")</span><input type="text" id="c_contact"></label>
+        <label>Company <input type="text" id="c_company"></label>
+        <label>Company address <input type="text" id="c_caddr" placeholder="1 Poultry, London EC2R 8EJ"></label>
+      </div>
+      <div class="card"><h3>The position</h3>
+        <label>Job title <input type="text" id="c_role" placeholder="SAP SuccessFactors Consultant"></label>
+        <label>Where you found the vacancy <input type="text" id="c_source" placeholder="LinkedIn, 20 September 2026"></label>
+        <label>Opening paragraph — why this role <span class="hint">(2–3 sentences)</span>
+        <textarea id="c_open" placeholder="Why this company and role excite you…"></textarea></label>
+        <label>Your 2–3 strongest qualifications <span class="hint">(one per line)</span>
+        <textarea id="c_strengths" placeholder="8 years SAP SuccessFactors EC & Recruiting&#10;Led 5 full-cycle implementations"></textarea></label>
+        <label>Work authorisation <input type="text" id="c_auth" placeholder="Eligible for UK Skilled Worker sponsorship"></label>
+        <div class="row"><label>Date <input type="text" id="c_date" placeholder="25 September 2026"></label></div>
+      </div>
+    </div>
+    <div class="preview-wrap"><div class="a4"><div class="letter" id="letterPreview"></div></div></div>
+  </div>
+</div>
+<script src="/js/uk-cover.js"></script>
+</body>
+</html>

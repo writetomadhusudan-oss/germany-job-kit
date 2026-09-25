@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Highly Skilled Migrant Checker — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav"><div class="wrap">
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/nl/guide">Netherlands guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head">
+    <h1>🇳🇱 Highly Skilled Migrant &amp; EU Blue Card Checker</h1>
+    <p class="muted">Check a Dutch job offer against the 2026 IND salary thresholds (gross per month, <strong>excluding</strong> the 8% holiday allowance). Thresholds change every January — the amount in force is the one on your application date. <strong>General information only — not legal advice; re-verify at <a href="https://ind.nl/en/required-amounts-income-requirements" target="_blank" rel="noopener">ind.nl</a>.</strong></p>
+  </div>
+
+  <div class="card" style="max-width:700px">
+    <h3>Your situation</h3>
+    <label>Age band
+      <select id="hsm_age">
+        <option value="30plus">30 years or older</option>
+        <option value="under30">Under 30</option>
+      </select></label>
+    <label>Recent graduate? (orientation-year / degree within the last 3 years)
+      <select id="hsm_recent">
+        <option value="no">No</option>
+        <option value="yes">Yes — within 3 years</option>
+      </select></label>
+    <label>Gross monthly salary offered (excl. 8% holiday allowance, EUR)
+      <input type="number" id="hsm_salary" placeholder="6000" min="0" step="1"></label>
+    <label>Contract length
+      <select id="hsm_contract">
+        <option value="long">12 months or more / indefinite</option>
+        <option value="mid">6–12 months</option>
+        <option value="short">Less than 6 months</option>
+      </select></label>
+    <label>Is the employer an IND-recognised sponsor (erkend referent)?
+      <select id="hsm_sponsor">
+        <option value="yes">Yes</option>
+        <option value="no">No / don't know</option>
+      </select></label>
+    <label>Do you hold a recognised higher-education degree (bachelor's or higher)?
+      <select id="hsm_degree">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select></label>
+    <p><button class="btn primary" id="calcBtn">Check eligibility</button></p>
+  </div>
+
+  <div id="result" style="max-width:900px;margin-top:16px"></div>
+
+  <div class="card" style="max-width:900px;margin-top:20px">
+    <h3>2026 IND thresholds (gross/month, excl. 8% holiday allowance)</h3>
+    <ul>
+      <li>Highly Skilled Migrant, 30 or older — <strong>€5,942</strong></li>
+      <li>Highly Skilled Migrant, under 30 — <strong>€4,357</strong></li>
+      <li>HSM reduced criterion (orientation-year / recent graduates within 3 years) — <strong>€3,122</strong></li>
+      <li>EU Blue Card, standard — <strong>€5,942</strong></li>
+      <li>EU Blue Card, reduced (degree within last 3 years) — <strong>€4,754</strong></li>
+    </ul>
+    <p class="muted small">Effective 1 January 2026. Source: <a href="https://ind.nl/en/required-amounts-income-requirements" target="_blank" rel="noopener">ind.nl — required amounts / income requirements</a>.</p>
+  </div>
+
+  <div class="card" style="max-width:900px;margin-top:16px">
+    <h3>💰 The 30% ruling (tax advantage)</h3>
+    <ul>
+      <li>The full <strong>30% rate still applies throughout 2026</strong> — it drops to a flat <strong>27%</strong> from <strong>1 January 2027</strong>.</li>
+      <li>2026 minimum taxable wage: <strong>€48,013/year</strong> (≈ €68,590 gross/year).</li>
+      <li>Under-30s with a non-Dutch master's degree: <strong>€36,497</strong> taxable (≈ €52,139 gross).</li>
+      <li>Cap on the tax-free sum: <strong>€262,000</strong>. Maximum duration: <strong>5 years</strong>.</li>
+      <li>Requires living <strong>150+ km from the Dutch border</strong> for at least <strong>16 of the prior 24 months</strong> — i.e. genuinely recruited from abroad.</li>
+    </ul>
+    <p class="muted small">Employers apply for the ruling with the Belastingdienst. General information only — not tax advice.</p>
+  </div>
+
+  <div class="card" style="max-width:900px;margin-top:16px">
+    <h3>How the two routes compare</h3>
+    <ul>
+      <li><strong>Highly Skilled Migrant (kennismigrant):</strong> the employer must be an <strong>IND-recognised sponsor</strong> — your employer files the application for you. 2026 application fee: <strong>€423</strong>. IND target decision time: <strong>~2 weeks</strong>.</li>
+      <li><strong>EU Blue Card:</strong> needs a contract of <strong>at least 6 months</strong> and a <strong>recognised higher-education degree</strong> (or qualifying experience). No recognised sponsor required. After <strong>12 months</strong> on a Dutch Blue Card you gain <strong>intra-EU mobility</strong> (easier move to another EU country).</li>
+      <li><strong>Recent graduates</strong> (orientation-year permit holders, degree within 3 years) get the reduced thresholds on both routes.</li>
+    </ul>
+  </div>
+</div>
+<script src="/js/nl-hsm.js"></script>
+</body>
+</html>

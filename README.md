@@ -1,20 +1,19 @@
-# Germany Job Kit
+# Global Job Kit
 
-A production web app for Indian IT professionals applying for jobs in Germany.
-One-time price: **€5.99, lifetime access**.
+A production web app for IT professionals applying for jobs in Germany, France, Canada, Australia, the UK, and the Netherlands.
+Regional one-time pricing, lifetime access: **€5.99 (Europe) · £4.99 (UK) · CAD 7.99 (Canada) · AUD 8.99 (Australia) · ₹499 (India)**.
 
 **Tools (all behind the paywall at `/app`):**
 
-- **CV / Lebenslauf builder** — ATS-safe single-column layout, live A4 preview, print-to-PDF
-- **Anschreiben generator** — German business-letter layout with PDF export
-- **Chancenkarte calculator** — 2026 rules (6-point threshold, prerequisites, points breakdown)
-- **EU Blue Card checker** — 2026 thresholds (€50,700 / €45,934.20)
-- **Application tracker** — localStorage CRUD with CSV export
-- **Germany job guide** — hiring, CV/ATS, visa routes, interviews, salary, relocation
+- **CV / resume builders** — country-correct layouts (German Lebenslauf, French CV, Canadian/Australian/UK/Dutch formats), ATS-safe, live A4 preview, print-to-PDF
+- **Cover-letter generators** — per-country business-letter conventions with PDF export
+- **Visa eligibility checkers** — Chancenkarte & EU Blue Card (Germany), Passeport Talent & EU Blue Card (France), Express Entry CRS (Canada), SkillSelect (Australia), Skilled Worker (UK), Highly Skilled Migrant & EU Blue Card (Netherlands)
+- **Application tracker** — shared across all six countries, localStorage CRUD with CSV export
+- **Country guides** — hiring, CV/ATS, visa routes, interviews, salary, relocation for each market
 
 **Stack:** FastAPI + static vanilla HTML/CSS/JS · SQLite (dev) / PostgreSQL (prod via `DATABASE_URL`) · Docker-ready.
 
-> **Visa figures disclaimer:** the Chancenkarte/Blue Card calculators are general information only, not legal advice. Thresholds change — always re-check current figures at official sources such as [make-it-in-germany.com](https://www.make-it-in-germany.com).
+> **Visa figures disclaimer:** the eligibility checkers are general information only, not legal advice. Thresholds change — always re-check current figures at official sources such as [make-it-in-germany.com](https://www.make-it-in-germany.com).
 
 ---
 
@@ -50,15 +49,23 @@ Alternatives:
 
 1. **Sign up** at [dodopayments.com](https://dodopayments.com) and open the dashboard at [app.dodopayments.com](https://app.dodopayments.com).
 2. **Verify as an individual seller.** Complete KYC in the dashboard: name matching your **PAN**, Indian phone **OTP** verification, and add your Indian **bank account** for payouts. Paid checkout stays disabled until verification is complete — use **test mode** meanwhile.
-3. **Create the €5.99 product.** Dashboard → **Products** → create a **one-time** product:
-   - Name: `Germany Job Kit — Lifetime Access`
-   - Price: **€5.99**, currency **EUR**, one-time (not subscription)
-   - Copy the product id — it looks like `pdt_...`.
+3. **Create the five regional products.** Dashboard → **Products** → create five **one-time** products (each issues the same Global Job Kit license; the buyer picks their region on the sales page):
+   - Name: `Global Job Kit — Lifetime Access` in each case
+   - **EUR** — €5.99 (Europe) → `DODO_PRODUCT_ID_EUR`
+   - **CAD** — CAD 7.99 (Canada) → `DODO_PRODUCT_ID_CAD`
+   - **AUD** — AUD 8.99 (Australia) → `DODO_PRODUCT_ID_AUD`
+   - **GBP** — £4.99 (UK) → `DODO_PRODUCT_ID_GBP`
+   - **INR** — ₹499 (India) → `DODO_PRODUCT_ID_INR`
+   - Copy each product id — they look like `pdt_...`.
 4. **Copy API keys into env.** Dashboard → **Developer → API**: create an API key (use a test key while testing), then set in your `.env`:
    ```env
    PAYMENT_PROVIDER=dodo
    DODO_PAYMENTS_API_KEY=<your key>
-   DODO_PRODUCT_ID=<pdt_... from step 3>
+   DODO_PRODUCT_ID_EUR=<pdt_... for the €5.99 product>
+   DODO_PRODUCT_ID_CAD=<pdt_... for the CAD 7.99 product>
+   DODO_PRODUCT_ID_AUD=<pdt_... for the AUD 8.99 product>
+   DODO_PRODUCT_ID_GBP=<pdt_... for the £4.99 product>
+   DODO_PRODUCT_ID_INR=<pdt_... for the ₹499 product>
    DODO_PAYMENTS_ENVIRONMENT=test_mode   # switch to live_mode when going live
    DODO_PAYMENTS_WEBHOOK_SECRET=<from step 5>
    APP_BASE_URL=https://YOUR-APP-DOMAIN   # your deployed domain
@@ -124,7 +131,7 @@ The **app issues and owns** its license keys (`GJK-XXXX-XXXX-XXXX`) for every pr
 See `.env.example` for every variable. Key ones:
 
 - `PAYMENT_PROVIDER` — `dodo` (default) | `stripe` | `paddle` | `gumroad`
-- `DODO_PAYMENTS_API_KEY`, `DODO_PRODUCT_ID`, `DODO_PAYMENTS_ENVIRONMENT` (`test_mode`/`live_mode`), `DODO_PAYMENTS_WEBHOOK_SECRET`
+- `DODO_PAYMENTS_API_KEY`, `DODO_PRODUCT_ID` (legacy single-product fallback), `DODO_PRODUCT_ID_EUR` / `_CAD` / `_AUD` / `_GBP` / `_INR` (regional one-time products), `DODO_PAYMENTS_ENVIRONMENT` (`test_mode`/`live_mode`), `DODO_PAYMENTS_WEBHOOK_SECRET`
 - `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PUBLISHABLE_KEY`
 - `PROVIDER_CHECKOUT_URL`, `PROVIDER_WEBHOOK_SECRET` (Paddle/Gumroad; also a Dodo static-link fallback)
 - `APP_BASE_URL`, `SECRET_KEY`, `DATABASE_URL`, `DEV_BYPASS_PAYWALL`

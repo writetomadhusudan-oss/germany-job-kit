@@ -22,6 +22,7 @@
       const cls = STAGE_CLASS[r.stage] || 'warn';
       const link = r.link ? ' <a href="' + esc(r.link) + '" target="_blank" rel="noopener">↗</a>' : '';
       return '<tr><td><strong>' + esc(r.company) + '</strong>' + link + '</td><td>' + esc(r.role) + '</td>' +
+        '<td>' + esc(r.country || '—') + '</td>' +
         '<td>' + esc(r.date) + '</td><td><span class="badge ' + cls + '">' + esc(r.stage) + '</span></td>' +
         '<td>' + esc(r.notes) + '</td>' +
         '<td style="white-space:nowrap"><button class="linklike" data-edit="' + i + '">Edit</button>' +
@@ -39,6 +40,7 @@
     $('formTitle').textContent = editing == null ? 'New application' : 'Edit application';
     const r = editing == null ? {} : load()[editing];
     $('t_company').value = r.company || ''; $('t_role').value = r.role || '';
+    $('t_country').value = r.country || 'Germany';
     $('t_date').value = r.date || new Date().toISOString().slice(0, 10);
     $('t_stage').value = r.stage || 'Applied';
     $('t_link').value = r.link || ''; $('t_notes').value = r.notes || '';
@@ -52,7 +54,8 @@
     const company = $('t_company').value.trim();
     if (!company) { alert('Company is required.'); return; }
     const rows = load();
-    const rec = { company, role: $('t_role').value.trim(), date: $('t_date').value,
+    const rec = { company, role: $('t_role').value.trim(), country: $('t_country').value,
+      date: $('t_date').value,
       stage: $('t_stage').value, link: $('t_link').value.trim(), notes: $('t_notes').value.trim() };
     if (editing == null) rows.unshift(rec); else rows[editing] = rec;
     save(rows); $('formCard').style.display = 'none'; render();
@@ -61,11 +64,11 @@
     const rows = load();
     if (!rows.length) { alert('Nothing to export yet.'); return; }
     const q = (s) => '"' + String(s == null ? '' : s).replace(/"/g, '""') + '"';
-    const csv = 'Company,Role,Date,Stage,Link,Notes\n' +
-      rows.map(r => [r.company, r.role, r.date, r.stage, r.link, r.notes].map(q).join(',')).join('\n');
+    const csv = 'Company,Role,Country,Date,Stage,Link,Notes\n' +
+      rows.map(r => [r.company, r.role, r.country || '', r.date, r.stage, r.link, r.notes].map(q).join(',')).join('\n');
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-    a.download = 'germany-job-applications.csv';
+    a.download = 'job-applications.csv';
     a.click();
     URL.revokeObjectURL(a.href);
   });

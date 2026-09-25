@@ -2,29 +2,112 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Your tools — Germany Job Kit</title>
+<title>Your tools — Global Job Kit</title>
 <link rel="stylesheet" href="/css/style.css">
+<style>
+.tabs{display:flex;gap:8px;margin:20px 0 24px;flex-wrap:wrap}
+.tab{padding:10px 22px;border:2px solid #dbe4f0;background:#fff;border-radius:999px;font-weight:700;cursor:pointer;font-size:15px}
+.tab.active{background:#0b3d91;color:#fff;border-color:#0b3d91}
+.country{display:none}
+.country.active{display:block}
+</style>
 </head>
 <body>
 <nav class="appnav"><div class="wrap">
-  <a class="brand" href="/app">Germany <span>Job Kit</span></a>
-  <div><a href="/app/guide">Guide</a><a href="/">Sales page</a></div>
+  <a class="brand" href="/app">Global <span>Job Kit</span></a>
+  <div><a href="/">Sales page</a></div>
 </div></nav>
 <div class="wrap">
   <div class="tool-head">
     <h1>Your job-search toolkit</h1>
-    <p class="muted">Everything below is unlocked on your lifetime license. Start with the guide if you're new to the German job market.</p>
+    <p class="muted">Everything below is unlocked on your lifetime license. Pick a country to see its tools — the Application Tracker is shared across all six.</p>
   </div>
-  <div class="grid cards">
-    <div class="card"><h3>📘 The Guide</h3><p>How German hiring works, CV rules, where to apply, visa routes, interview norms.</p><p><a class="btn" href="/app/guide">Read the guide</a></p></div>
-    <div class="card"><h3>📄 CV Builder (Lebenslauf)</h3><p>German tabular CV with live preview and one-click PDF export. ATS-safe.</p><p><a class="btn" href="/app/cv">Build my CV</a></p></div>
-    <div class="card"><h3>✉️ Cover Letter Generator</h3><p>Proper German business letter (Anschreiben) with salary expectation and start date.</p><p><a class="btn" href="/app/cover-letter">Write my letter</a></p></div>
-    <div class="card"><h3>🧮 Chancenkarte Calculator</h3><p>Your 2026 Opportunity Card points — and exactly what gets you over 6.</p><p><a class="btn" href="/app/chancenkarte">Calculate my points</a></p></div>
-    <div class="card"><h3>💳 EU Blue Card Checker</h3><p>Check your offer against the 2026 salary thresholds in seconds.</p><p><a class="btn" href="/app/blue-card">Check eligibility</a></p></div>
-    <div class="card"><h3>📊 Application Tracker</h3><p>Track every application: company, role, stage, notes. Exportable.</p><p><a class="btn" href="/app/tracker">Open tracker</a></p></div>
+  <div class="tabs">
+    <button class="tab active" data-c="de">🇩🇪 Germany</button>
+    <button class="tab" data-c="fr">🇫🇷 France</button>
+    <button class="tab" data-c="ca">🇨🇦 Canada</button>
+    <button class="tab" data-c="au">🇦🇺 Australia</button>
+    <button class="tab" data-c="uk">🇬🇧 UK</button>
+    <button class="tab" data-c="nl">🇳🇱 Netherlands</button>
   </div>
+
+  <div class="country active" id="c-de">
+    <div class="grid cards">
+      <div class="card"><h3>📘 Germany Guide</h3><p>How German hiring works, CV rules, where to apply, visa routes, interview norms.</p><p><a class="btn" href="/app/guide">Read the guide</a></p></div>
+      <div class="card"><h3>📄 CV Builder (Lebenslauf)</h3><p>German tabular CV with live preview and one-click PDF export. ATS-safe.</p><p><a class="btn" href="/app/cv">Build my CV</a></p></div>
+      <div class="card"><h3>✉️ Cover Letter Generator</h3><p>Proper German business letter (Anschreiben) with salary expectation and start date.</p><p><a class="btn" href="/app/cover-letter">Write my letter</a></p></div>
+      <div class="card"><h3>🧮 Chancenkarte Calculator</h3><p>Your 2026 Opportunity Card points — and exactly what gets you over 6.</p><p><a class="btn" href="/app/chancenkarte">Calculate my points</a></p></div>
+      <div class="card"><h3>💳 EU Blue Card Checker</h3><p>Check your offer against the 2026 salary thresholds in seconds.</p><p><a class="btn" href="/app/blue-card">Check eligibility</a></p></div>
+      <div class="card"><h3>📊 Application Tracker</h3><p>Track every application: company, role, stage, notes. Exportable.</p><p><a class="btn" href="/app/tracker">Open tracker</a></p></div>
+    </div>
+  </div>
+
+  <div class="country" id="c-fr">
+    <div class="grid cards">
+      <div class="card"><h3>📘 France Guide</h3><p>How French hiring works, CV rules, where to apply, visa routes, interview norms.</p><p><a class="btn" href="/app/fr/guide">Read the guide</a></p></div>
+      <div class="card"><h3>📄 CV Builder (français)</h3><p>French-format CV with live preview and one-click PDF export. ATS-safe.</p><p><a class="btn" href="/app/fr/cv">Build my CV</a></p></div>
+      <div class="card"><h3>✉️ Lettre de motivation</h3><p>Proper French cover letter with the structure recruiters expect.</p><p><a class="btn" href="/app/fr/lettre">Write my letter</a></p></div>
+      <div class="card"><h3>🛂 Passeport Talent Checker</h3><p>Check your profile against France's Talent Passport salary thresholds.</p><p><a class="btn" href="/app/fr/passeport-talent">Check eligibility</a></p></div>
+      <div class="card"><h3>📊 Application Tracker</h3><p>Track every application: company, role, stage, notes. Exportable.</p><p><a class="btn" href="/app/tracker">Open tracker</a></p></div>
+    </div>
+  </div>
+
+  <div class="country" id="c-ca">
+    <div class="grid cards">
+      <div class="card"><h3>📘 Canada Guide</h3><p>How Canadian hiring works, resume rules, where to apply, Express Entry, interview norms.</p><p><a class="btn" href="/app/ca/guide">Read the guide</a></p></div>
+      <div class="card"><h3>📄 Resume Builder</h3><p>Canadian-format resume with live preview and one-click PDF export. ATS-safe.</p><p><a class="btn" href="/app/ca/resume">Build my resume</a></p></div>
+      <div class="card"><h3>✉️ Cover Letter Generator</h3><p>Canadian cover letter with the structure hiring managers expect.</p><p><a class="btn" href="/app/ca/cover-letter">Write my letter</a></p></div>
+      <div class="card"><h3>🍁 CRS Calculator</h3><p>Estimate your Express Entry Comprehensive Ranking System score.</p><p><a class="btn" href="/app/ca/crs">Calculate my CRS</a></p></div>
+      <div class="card"><h3>📊 Application Tracker</h3><p>Track every application: company, role, stage, notes. Exportable.</p><p><a class="btn" href="/app/tracker">Open tracker</a></p></div>
+    </div>
+  </div>
+
+  <div class="country" id="c-au">
+    <div class="grid cards">
+      <div class="card"><h3>📘 Australia Guide</h3><p>How Australian hiring works, resume rules, where to apply, SkillSelect, interview norms.</p><p><a class="btn" href="/app/au/guide">Read the guide</a></p></div>
+      <div class="card"><h3>📄 Resume Builder</h3><p>Australian-format resume with live preview and one-click PDF export. ATS-safe.</p><p><a class="btn" href="/app/au/resume">Build my resume</a></p></div>
+      <div class="card"><h3>✉️ Cover Letter Generator</h3><p>Australian cover letter with the structure hiring managers expect.</p><p><a class="btn" href="/app/au/cover-letter">Write my letter</a></p></div>
+      <div class="card"><h3>🦘 SkillSelect Points Calculator</h3><p>Estimate your Australian skilled-migration points score.</p><p><a class="btn" href="/app/au/skillselect">Calculate my points</a></p></div>
+      <div class="card"><h3>📊 Application Tracker</h3><p>Track every application: company, role, stage, notes. Exportable.</p><p><a class="btn" href="/app/tracker">Open tracker</a></p></div>
+    </div>
+  </div>
+
+  <div class="country" id="c-uk">
+    <div class="grid cards">
+      <div class="card"><h3>📘 UK Guide</h3><p>How UK hiring works, CV rules, where to apply, Skilled Worker visa, interview norms.</p><p><a class="btn" href="/app/uk/guide">Read the guide</a></p></div>
+      <div class="card"><h3>📄 CV Builder</h3><p>UK-format CV with live preview and one-click PDF export. ATS-safe.</p><p><a class="btn" href="/app/uk/cv">Build my CV</a></p></div>
+      <div class="card"><h3>✉️ Cover Letter Generator</h3><p>UK cover letter with the structure hiring managers expect.</p><p><a class="btn" href="/app/uk/cover-letter">Write my letter</a></p></div>
+      <div class="card"><h3>🛂 Skilled Worker Checker</h3><p>Check your offer against the UK Skilled Worker salary thresholds.</p><p><a class="btn" href="/app/uk/skilled-worker">Check eligibility</a></p></div>
+      <div class="card"><h3>📊 Application Tracker</h3><p>Track every application: company, role, stage, notes. Exportable.</p><p><a class="btn" href="/app/tracker">Open tracker</a></p></div>
+    </div>
+  </div>
+
+  <div class="country" id="c-nl">
+    <div class="grid cards">
+      <div class="card"><h3>📘 Netherlands Guide</h3><p>How Dutch hiring works, CV rules, where to apply, Highly Skilled Migrant scheme, interview norms.</p><p><a class="btn" href="/app/nl/guide">Read the guide</a></p></div>
+      <div class="card"><h3>📄 CV Builder</h3><p>Dutch-format CV with live preview and one-click PDF export. ATS-safe.</p><p><a class="btn" href="/app/nl/cv">Build my CV</a></p></div>
+      <div class="card"><h3>✉️ Motivatiebrief Generator</h3><p>Dutch motivation letter with the structure recruiters expect.</p><p><a class="btn" href="/app/nl/motivation">Write my letter</a></p></div>
+      <div class="card"><h3>🛂 Highly Skilled Migrant Checker</h3><p>Check your offer against the Dutch kennismigrant salary thresholds.</p><p><a class="btn" href="/app/nl/hsm">Check eligibility</a></p></div>
+      <div class="card"><h3>📊 Application Tracker</h3><p>Track every application: company, role, stage, notes. Exportable.</p><p><a class="btn" href="/app/tracker">Open tracker</a></p></div>
+    </div>
+  </div>
+
   <p class="muted small" style="margin:32px 0">Tip: your license key also unlocks these tools on any other device — just enter it at <a href="/unlock">/unlock</a>.</p>
 </div>
+<script>
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.country').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById('c-' + t.dataset.c).classList.add('active');
+  try { localStorage.setItem('gjk_country', t.dataset.c); } catch (e) {}
+}));
+try {
+  const c = localStorage.getItem('gjk_country');
+  if (c && document.querySelector('.tab[data-c="' + c + '"]')) document.querySelector('.tab[data-c="' + c + '"]').click();
+} catch (e) {}
+</script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-# Render Blueprint — one-click deploy for the Germany Job Kit.
+# Render Blueprint — one-click deploy for the Global Job Kit.
 # Usage: push this repo to GitHub, then in Render: New > Blueprint > select the repo.
 # After deploy, add your custom domain (careerkit.mindnspace.com) under
 # the service's Settings > Custom Domains, then update APP_BASE_URL below
@@ -28,6 +28,16 @@ services:
       - key: DODO_PAYMENTS_API_KEY
         sync: false
       - key: DODO_PRODUCT_ID
+        sync: false
+      - key: DODO_PRODUCT_ID_EUR
+        sync: false
+      - key: DODO_PRODUCT_ID_CAD
+        sync: false
+      - key: DODO_PRODUCT_ID_AUD
+        sync: false
+      - key: DODO_PRODUCT_ID_GBP
+        sync: false
+      - key: DODO_PRODUCT_ID_INR
         sync: false
       - key: DODO_PAYMENTS_WEBHOOK_SECRET
         sync: false

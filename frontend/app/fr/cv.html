@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CV Builder (Lebenslauf) — Global Job Kit</title>
+<title>CV Builder (français) — Global Job Kit</title>
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <nav class="appnav no-print"><div class="wrap">
   <a class="brand" href="/app">Global <span>Job Kit</span></a>
-  <div><a href="/app">Tools</a><a href="/app/guide">Guide</a></div>
+  <div><a href="/app">Tools</a><a href="/app/fr/guide">France guide</a></div>
 </div></nav>
 <div class="wrap">
   <div class="tool-head no-print">
-    <h1>CV Builder — Lebenslauf</h1>
-    <p class="muted">Fill in the form; your German tabular CV updates live. When done, export to PDF (single column, standard fonts — ATS-safe).</p>
+    <h1>CV Builder — français</h1>
+    <p class="muted">Fill in the form; your French-format CV updates live. When done, export to PDF (single column, standard fonts — ATS-safe). A photo is traditional on French CVs but optional.</p>
     <div class="toolbar">
       <button class="btn primary" onclick="window.print()">Export PDF / Print</button>
       <button class="btn" id="fillSample">Load sample data</button>
@@ -25,43 +25,48 @@
   <div class="builder">
     <div class="builder-form no-print">
       <div class="card">
-        <h3>Personal details</h3>
+        <h3>État civil — personal details</h3>
         <label>Full name <input type="text" id="f_name" placeholder="Priya Sharma"></label>
-        <label>Target job title <input type="text" id="f_title" placeholder="SAP SuccessFactors Consultant"></label>
+        <label>Target job title <input type="text" id="f_title" placeholder="Consultante SAP SuccessFactors"></label>
         <div class="row">
-          <label>Street <input type="text" id="f_street" placeholder="MG Road 42"></label>
-          <label>ZIP / City <input type="text" id="f_city" placeholder="560001 Bengaluru, India"></label>
+          <label>Address <input type="text" id="f_street" placeholder="42 MG Road"></label>
+          <label>City, Country <input type="text" id="f_city" placeholder="Bengaluru, Inde"></label>
         </div>
         <div class="row">
           <label>Phone <input type="text" id="f_phone" placeholder="+91 98XXX XXXXX"></label>
           <label>Email <input type="email" id="f_email" placeholder="you@example.com"></label>
         </div>
         <label>LinkedIn <input type="text" id="f_linkedin" placeholder="linkedin.com/in/yourname"></label>
+        <div class="row">
+          <label>Age <span class="hint">(optional)</span> <input type="text" id="f_age" placeholder="32 ans"></label>
+          <label>Nationality <span class="hint">(optional)</span> <input type="text" id="f_nat" placeholder="Indienne"></label>
+        </div>
+        <label>Photo <span class="hint">(optional — traditional in France)</span> <input type="file" id="f_photo" accept="image/*"></label>
       </div>
       <div class="card">
-        <h3>Profile summary</h3>
+        <h3>Profil — profile summary</h3>
         <label>2–3 sentences: years of experience, core skills, what you're looking for
-        <textarea id="f_summary" placeholder="IT consultant with 8 years of experience in SAP SuccessFactors Employee Central and Recruiting. Led 5 full-cycle implementations across manufacturing and retail. Seeking a consultant role in Germany."></textarea></label>
+        <textarea id="f_summary" placeholder="Consultante SAP SuccessFactors avec 8 ans d'expérience…"></textarea></label>
       </div>
       <div class="card">
-        <h3>Work experience <span class="hint">(newest first)</span></h3>
+        <h3>Expérience professionnelle <span class="hint">(newest first)</span></h3>
         <div id="expList"></div>
         <button class="btn" id="addExp" type="button">+ Add position</button>
       </div>
       <div class="card">
-        <h3>Education</h3>
+        <h3>Formation — education</h3>
         <div id="eduList"></div>
         <button class="btn" id="addEdu" type="button">+ Add education</button>
       </div>
       <div class="card">
-        <h3>Skills, languages, certifications</h3>
-        <label>IT / professional skills <span class="hint">(comma separated)</span>
-        <textarea id="f_skills" placeholder="SAP SuccessFactors EC, Recruiting, SQL, Ticketing tools, Agile/Scrum"></textarea></label>
+        <h3>Compétences, langues, centres d'intérêt</h3>
+        <label>Professional skills <span class="hint">(comma separated)</span>
+        <textarea id="f_skills" placeholder="SAP SuccessFactors EC, Recrutement, SQL, Agile/Scrum"></textarea></label>
         <h4 style="margin-bottom:0">Languages <span class="hint">(with CEFR level)</span></h4>
         <div id="langList"></div>
         <button class="btn" id="addLang" type="button">+ Add language</button>
-        <label>Certifications <span class="hint">(one per line)</span>
-        <textarea id="f_certs" placeholder="SAP Certified Application Associate — SuccessFactors EC (2023)"></textarea></label>
+        <label>Centres d'intérêt <span class="hint">(one per line — optional)</span>
+        <textarea id="f_interests" placeholder="Voyages, photographie"></textarea></label>
       </div>
     </div>
     <div class="preview-wrap">
@@ -69,6 +74,6 @@
     </div>
   </div>
 </div>
-<script src="/js/cv.js"></script>
+<script src="/js/fr-cv.js"></script>
 </body>
 </html>
