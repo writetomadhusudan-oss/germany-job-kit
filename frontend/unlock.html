@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unlock — Germany Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="wrap narrow">
+  <header class="topbar"><a class="brand" href="/">Germany <span>Job Kit</span></a></header>
+  <main class="card">
+    <h1>Unlock your kit</h1>
+    <p class="muted">Enter the license key from your confirmation page (format <code>GJK-XXXX-XXXX-XXXX</code>).</p>
+    <label for="key">License key</label>
+    <input type="text" id="key" placeholder="GJK-XXXX-XXXX-XXXX" autocomplete="off" style="text-transform:uppercase">
+    <p><button class="btn primary" id="unlockBtn" style="margin-top:12px">Unlock my tools</button></p>
+    <div class="error" id="err"></div>
+    <p class="muted small">No key yet? <a href="/#pricing">Get lifetime access for €5.99</a>.</p>
+  </main>
+</div>
+<script>
+document.getElementById('unlockBtn').addEventListener('click', async () => {
+  const key = document.getElementById('key').value.trim();
+  const err = document.getElementById('err');
+  err.textContent = '';
+  if (!key) { err.textContent = 'Please enter your license key.'; return; }
+  try {
+    const res = await fetch('/api/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Verification failed.');
+    window.location.href = '/app';
+  } catch (e) { err.textContent = e.message; }
+});
+</script>
+</body>
+</html>

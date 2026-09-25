@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Application Tracker — Germany Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav"><div class="wrap">
+  <a class="brand" href="/app">Germany <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/guide">Guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head">
+    <h1>Application Tracker</h1>
+    <p class="muted">Every application in one place. Saved automatically in this browser — nothing is uploaded anywhere.</p>
+    <div class="toolbar">
+      <button class="btn primary" id="addBtn">+ Add application</button>
+      <button class="btn" id="csvBtn">Export CSV</button>
+    </div>
+  </div>
+  <div class="card" id="formCard" style="display:none">
+    <h3 id="formTitle">New application</h3>
+    <div class="row">
+      <label>Company <input type="text" id="t_company"></label>
+      <label>Role <input type="text" id="t_role"></label>
+    </div>
+    <div class="row">
+      <label>Date applied <input type="date" id="t_date"></label>
+      <label>Stage
+        <select id="t_stage">
+          <option>Applied</option><option>Screening call</option><option>Interview</option>
+          <option>Final round</option><option>Offer</option><option>Rejected</option><option>Withdrawn</option>
+        </select></label>
+    </div>
+    <label>Job link <input type="text" id="t_link" placeholder="https://…"></label>
+    <label>Notes <textarea id="t_notes" placeholder="Recruiter name, salary discussed, follow-up date…"></textarea></label>
+    <div class="toolbar">
+      <button class="btn primary" id="saveBtn">Save</button>
+      <button class="btn" id="cancelBtn">Cancel</button>
+    </div>
+  </div>
+  <div class="card" style="overflow-x:auto">
+    <table class="tracker" id="tbl">
+      <thead><tr><th>Company</th><th>Role</th><th>Date</th><th>Stage</th><th>Notes</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p class="muted" id="empty" style="display:none">No applications yet — add your first one above.</p>
+  </div>
+</div>
+<script src="/js/tracker.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cover Letter Generator (Anschreiben) — Germany Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav no-print"><div class="wrap">
+  <a class="brand" href="/app">Germany <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/guide">Guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head no-print">
+    <h1>Cover Letter Generator — Anschreiben</h1>
+    <p class="muted">German business-letter format (DIN 5008 style), with the details German recruiters expect: salary expectation, earliest start date, notice period.</p>
+    <div class="toolbar">
+      <button class="btn primary" onclick="window.print()">Export PDF / Print</button>
+      <button class="btn" id="fillSample">Load sample</button>
+    </div>
+  </div>
+  <div class="builder">
+    <div class="builder-form no-print">
+      <div class="card"><h3>Your details</h3>
+        <label>Full name <input type="text" id="c_name"></label>
+        <div class="row"><label>Street <input type="text" id="c_street"></label><label>ZIP / City <input type="text" id="c_city"></label></div>
+        <div class="row"><label>Phone <input type="text" id="c_phone"></label><label>Email <input type="email" id="c_email"></label></div>
+      </div>
+      <div class="card"><h3>Recipient</h3>
+        <label>Company <input type="text" id="c_company"></label>
+        <label>Contact person <span class="hint">(optional — "Frau/Herr Lastname")</span><input type="text" id="c_contact"></label>
+        <div class="row"><label>Street <input type="text" id="c_cstreet"></label><label>ZIP / City <input type="text" id="c_ccity"></label></div>
+      </div>
+      <div class="card"><h3>The position</h3>
+        <label>Job title <input type="text" id="c_role" placeholder="SAP SuccessFactors Consultant"></label>
+        <label>Where you found the ad <input type="text" id="c_source" placeholder="StepStone, 20 September 2026"></label>
+        <label>Why you — motivation & fit (2–4 sentences)
+        <textarea id="c_motivation" placeholder="Why this company and this role…"></textarea></label>
+        <label>Your 2–3 strongest qualifications <span class="hint">(one per line)</span>
+        <textarea id="c_strengths" placeholder="8 years SAP SuccessFactors EC & Recruiting&#10;Led 5 full-cycle implementations"></textarea></label>
+        <div class="row">
+          <label>Salary expectation (gross €/year) <input type="text" id="c_salary" placeholder="62,000"></label>
+          <label>Earliest start date <input type="text" id="c_start" placeholder="01.01.2027"></label>
+        </div>
+        <label>Notice period <input type="text" id="c_notice" placeholder="3 months to quarter-end"></label>
+        <div class="row"><label>Place <input type="text" id="c_place" placeholder="Bengaluru"></label><label>Date <input type="text" id="c_date" placeholder="25.09.2026"></label></div>
+      </div>
+    </div>
+    <div class="preview-wrap"><div class="a4"><div class="letter" id="letterPreview"></div></div></div>
+  </div>
+</div>
+<script src="/js/cover-letter.js"></script>
+</body>
+</html>

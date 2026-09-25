@@ -1,0 +1,37 @@
+# Render Blueprint — one-click deploy for the Germany Job Kit.
+# Usage: push this repo to GitHub, then in Render: New > Blueprint > select the repo.
+# After deploy, add your custom domain (careerkit.mindnspace.com) under
+# the service's Settings > Custom Domains, then update APP_BASE_URL below
+# to https://careerkit.mindnspace.com
+
+services:
+  - type: web
+    name: germany-job-kit
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /
+    envVars:
+      - key: PAYMENT_PROVIDER
+        value: dodo
+      - key: DODO_PAYMENTS_ENVIRONMENT
+        value: test_mode
+      - key: APP_BASE_URL
+        # TODO: replace with https://careerkit.mindnspace.com after adding the custom domain
+        value: https://germany-job-kit.onrender.com
+      - key: DATABASE_URL
+        fromDatabase:
+          name: gjk-db
+          property: connectionString
+      # Secrets — set these in the Render dashboard (Environment tab).
+      # Never commit real values here.
+      - key: DODO_PAYMENTS_API_KEY
+        sync: false
+      - key: DODO_PRODUCT_ID
+        sync: false
+      - key: DODO_PAYMENTS_WEBHOOK_SECRET
+        sync: false
+
+databases:
+  - name: gjk-db
+    plan: free

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chancenkarte Points Calculator — Germany Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav"><div class="wrap">
+  <a class="brand" href="/app">Germany <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/guide">Guide</a></div>
+</div></nav>
+<div class="wrap narrow">
+  <div class="tool-head">
+    <h1>Chancenkarte Points Calculator</h1>
+    <p class="muted">Germany's Opportunity Card lets you live in Germany for up to 12 months to find a job — no offer needed first. You need <strong>6 points</strong> (2026 rules). Answer honestly; the math is instant.</p>
+  </div>
+  <div class="card">
+    <h3>1. Basic requirements</h3>
+    <label>Your qualification
+      <select id="q_qual">
+        <option value="degree">University degree</option>
+        <option value="vocational">Vocational training (2+ years)</option>
+        <option value="itexp">IT specialist — 3+ years experience, no degree</option>
+        <option value="none">None of these</option>
+      </select></label>
+    <div class="row">
+      <label>German level
+        <select id="q_german">
+          <option value="none">None</option><option value="A1">A1</option><option value="A2">A2</option>
+          <option value="B1">B1</option><option value="B2">B2 or higher</option>
+        </select></label>
+      <label>English level
+        <select id="q_english">
+          <option value="none">None</option><option value="A2">A2</option><option value="B1">B1</option>
+          <option value="B2">B2</option><option value="C1">C1 or higher</option>
+        </select></label>
+    </div>
+    <label>Can you show ~€13,092 in a blocked account (12 months' funds)?
+      <select id="q_funds"><option value="yes">Yes</option><option value="no">No</option></select></label>
+  </div>
+  <div class="card">
+    <h3>2. Points</h3>
+    <label>Recognition of your qualification <strong>in Germany</strong>
+      <select id="p_recog">
+        <option value="full">Fully recognized</option>
+        <option value="partial">Partially recognized (+4)</option>
+        <option value="none" selected>Not (yet) recognized (+0)</option>
+      </select></label>
+    <label>Is your occupation a shortage occupation? <span class="hint">(all IT roles count)</span>
+      <select id="p_shortage"><option value="yes" selected>Yes</option><option value="no">No</option></select></label>
+    <label>Relevant work experience
+      <select id="p_exp">
+        <option value="lt2">Less than 2 years (+0)</option>
+        <option value="2to4" selected>2–4 years in the last 5 (+2)</option>
+        <option value="5plus">5+ years in the last 7 (+3)</option>
+      </select></label>
+    <label>Age
+      <select id="p_age">
+        <option value="u35" selected>Under 35 (+2)</option>
+        <option value="35to40">35–40 (+1)</option>
+        <option value="o40">Over 40 (+0)</option>
+      </select></label>
+    <div class="row">
+      <label>Lived in Germany 6+ months in the last 5 years?
+        <select id="p_lived"><option value="no" selected>No</option><option value="yes">Yes (+1)</option></select></label>
+      <label>Spouse/partner also eligible?
+        <select id="p_partner"><option value="no" selected>No</option><option value="yes">Yes (+1)</option></select></label>
+    </div>
+  </div>
+  <div id="result"></div>
+  <div class="disclaimer">
+    <strong>Not legal advice.</strong> Rules and figures change — re-verify at <strong>make-it-in-germany.com</strong> (official) before applying. Fund amounts are 2026 figures.
+  </div>
+</div>
+<script src="/js/chancenkarte.js"></script>
+</body>
+</html>

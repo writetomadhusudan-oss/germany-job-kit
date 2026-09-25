@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EU Blue Card Checker — Germany Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav"><div class="wrap">
+  <a class="brand" href="/app">Germany <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/guide">Guide</a></div>
+</div></nav>
+<div class="wrap narrow">
+  <div class="tool-head">
+    <h1>EU Blue Card Checker</h1>
+    <p class="muted">The Blue Card is Germany's fastest work-permit route for skilled professionals. Check your offer against the <strong>2026 thresholds</strong>.</p>
+  </div>
+  <div class="card">
+    <label>Gross annual salary in your offer (€)
+      <input type="number" id="b_salary" min="0" step="100" placeholder="55000"></label>
+    <label>Is your university degree recognized in Germany? <span class="hint">(check via Anabin / ZAB Statement of Comparability)</span>
+      <select id="b_degree"><option value="yes">Yes</option><option value="no">No</option></select></label>
+    <label>IT specialist with 3+ years experience in the last 7? <span class="hint">(can substitute for a degree in IT roles)</span>
+      <select id="b_itexp"><option value="no">No</option><option value="yes">Yes</option></select></label>
+    <label>Is the role IT or another shortage occupation?
+      <select id="b_shortage"><option value="yes">Yes</option><option value="no">No</option></select></label>
+    <label>Did you graduate within the last 3 years?
+      <select id="b_grad"><option value="no">No</option><option value="yes">Yes</option></select></label>
+    <button class="btn primary" id="b_check" style="margin-top:14px">Check eligibility</button>
+  </div>
+  <div id="result"></div>
+  <div class="card">
+    <h3>Worth knowing</h3>
+    <ul>
+      <li><strong>No German required</strong> for the Blue Card. English is widely used in German IT workplaces.</li>
+      <li><strong>Permanent residence</strong> after 21 months with German B1, or 27 months with A1.</li>
+      <li><strong>Family reunification</strong> possible from day one; no German required for spouses.</li>
+      <li>Thresholds are updated <strong>every year</strong> — always confirm the current year's figures before signing.</li>
+    </ul>
+  </div>
+  <div class="disclaimer">
+    <strong>Not legal advice.</strong> General information based on 2026 rules — re-verify at <strong>make-it-in-germany.com</strong> or the BAMF before applying.
+  </div>
+</div>
+<script src="/js/blue-card.js"></script>
+</body>
+</html>

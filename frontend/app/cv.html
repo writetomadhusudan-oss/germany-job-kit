@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CV Builder (Lebenslauf) — Germany Job Kit</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav class="appnav no-print"><div class="wrap">
+  <a class="brand" href="/app">Germany <span>Job Kit</span></a>
+  <div><a href="/app">Tools</a><a href="/app/guide">Guide</a></div>
+</div></nav>
+<div class="wrap">
+  <div class="tool-head no-print">
+    <h1>CV Builder — Lebenslauf</h1>
+    <p class="muted">Fill in the form; your German tabular CV updates live. When done, export to PDF (single column, standard fonts — ATS-safe).</p>
+    <div class="toolbar">
+      <button class="btn primary" onclick="window.print()">Export PDF / Print</button>
+      <button class="btn" id="fillSample">Load sample data</button>
+      <button class="btn" id="clearAll">Clear</button>
+    </div>
+  </div>
+  <div class="builder">
+    <div class="builder-form no-print">
+      <div class="card">
+        <h3>Personal details</h3>
+        <label>Full name <input type="text" id="f_name" placeholder="Priya Sharma"></label>
+        <label>Target job title <input type="text" id="f_title" placeholder="SAP SuccessFactors Consultant"></label>
+        <div class="row">
+          <label>Street <input type="text" id="f_street" placeholder="MG Road 42"></label>
+          <label>ZIP / City <input type="text" id="f_city" placeholder="560001 Bengaluru, India"></label>
+        </div>
+        <div class="row">
+          <label>Phone <input type="text" id="f_phone" placeholder="+91 98XXX XXXXX"></label>
+          <label>Email <input type="email" id="f_email" placeholder="you@example.com"></label>
+        </div>
+        <label>LinkedIn <input type="text" id="f_linkedin" placeholder="linkedin.com/in/yourname"></label>
+      </div>
+      <div class="card">
+        <h3>Profile summary</h3>
+        <label>2–3 sentences: years of experience, core skills, what you're looking for
+        <textarea id="f_summary" placeholder="IT consultant with 8 years of experience in SAP SuccessFactors Employee Central and Recruiting. Led 5 full-cycle implementations across manufacturing and retail. Seeking a consultant role in Germany."></textarea></label>
+      </div>
+      <div class="card">
+        <h3>Work experience <span class="hint">(newest first)</span></h3>
+        <div id="expList"></div>
+        <button class="btn" id="addExp" type="button">+ Add position</button>
+      </div>
+      <div class="card">
+        <h3>Education</h3>
+        <div id="eduList"></div>
+        <button class="btn" id="addEdu" type="button">+ Add education</button>
+      </div>
+      <div class="card">
+        <h3>Skills, languages, certifications</h3>
+        <label>IT / professional skills <span class="hint">(comma separated)</span>
+        <textarea id="f_skills" placeholder="SAP SuccessFactors EC, Recruiting, SQL, Ticketing tools, Agile/Scrum"></textarea></label>
+        <h4 style="margin-bottom:0">Languages <span class="hint">(with CEFR level)</span></h4>
+        <div id="langList"></div>
+        <button class="btn" id="addLang" type="button">+ Add language</button>
+        <label>Certifications <span class="hint">(one per line)</span>
+        <textarea id="f_certs" placeholder="SAP Certified Application Associate — SuccessFactors EC (2023)"></textarea></label>
+      </div>
+    </div>
+    <div class="preview-wrap">
+      <div class="a4" id="cvPreview"></div>
+    </div>
+  </div>
+</div>
+<script src="/js/cv.js"></script>
+</body>
+</html>
