@@ -340,9 +340,11 @@ class DodoProvider(PaymentProvider):
             create_kwargs["billing_address"] = {
                 "country": locale["billing_country"]}
         if region == "INR":
-            # UPI first, cards as fallback (Dodo's documented India setup).
+            # UPI first, cards as fallback. Per Dodo support, upi_intent
+            # must be included for API checkouts — upi_collect alone
+            # won't show the UPI option.
             create_kwargs["allowed_payment_method_types"] = [
-                "upi_collect", "credit", "debit"]
+                "upi_intent", "upi_collect", "credit", "debit"]
         try:
             session = client.checkout_sessions.create(**create_kwargs)
         except Exception as e:
