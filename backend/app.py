@@ -58,6 +58,19 @@ DODO_PRODUCT_IDS = {
     "GBP": os.getenv("DODO_PRODUCT_ID_GBP", "").strip(),
     "INR": os.getenv("DODO_PRODUCT_ID_INR", "").strip(),
 }
+# Region -> Dodo checkout localization. The site's region selector is the
+# buyer's declared region, so we tell Dodo the billing currency outright
+# (otherwise checkout opens on a USD display with a manual switcher) and
+# the billing country (otherwise Dodo can't offer local payment methods
+# like UPI for India). EUR spans many countries, so no single country is
+# forced there — currency alone is enough.
+DODO_REGION_LOCALE = {
+    "EUR": {"billing_currency": "EUR"},
+    "GBP": {"billing_currency": "GBP", "billing_country": "GB"},
+    "CAD": {"billing_currency": "CAD", "billing_country": "CA"},
+    "AUD": {"billing_currency": "AUD", "billing_country": "AU"},
+    "INR": {"billing_currency": "INR", "billing_country": "IN"},
+}
 DODO_PAYMENTS_ENVIRONMENT = os.getenv(
     "DODO_PAYMENTS_ENVIRONMENT", "test_mode").strip().lower()
 DODO_PAYMENTS_WEBHOOK_SECRET = os.getenv(
@@ -300,7 +313,8 @@ class DodoProvider(PaymentProvider):
         return DodoPayments(bearer_token=DODO_PAYMENTS_API_KEY,
                             environment=DODO_PAYMENTS_ENVIRONMENT)
 
-    def create_checkout(self, success_url: str, cancel_url: str, product_id: str = "") -> str:
+    def create_checkout(self, success_url: str, cancel_url: str, product_id: str = "",
+                        currency: str = "EUR") -> str:
         # Static payment-link fallback (Dashboard → Products → share link),
         # useful when you only have a dashboard link and no API key.
         product_id = product_id or DODO_PRODUCT_ID
@@ -308,14 +322,29 @@ class DodoProvider(PaymentProvider):
                 and PROVIDER_CHECKOUT_URL:
             return PROVIDER_CHECKOUT_URL
         client = self._client()
+        # Localize the checkout to the buyer's region: without these Dodo
+        # defaults to a USD display (manual switcher) and hides local
+        # payment methods such as UPI.
+        region = (currency or "EUR").upper()
+        locale = DODO_REGION_LOCALE.get(region, {})
+        create_kwargs = dict(
+            product_cart=[{"product_id": product_id, "quantity": 1}],
+            return_url=success_url,
+            cancel_url=cancel_url,
+            minimal_address=True,  # faster checkout: country + ZIP only
+            metadata={"product": "global-job-kit"},
+        )
+        if locale.get("billing_currency"):
+            create_kwargs["billing_currency"] = locale["billing_currency"]
+        if locale.get("billing_country"):
+            create_kwargs["billing_address"] = {
+                "country": locale["billing_country"]}
+        if region == "INR":
+            # UPI first, cards as fallback (Dodo's documented India setup).
+            create_kwargs["allowed_payment_method_types"] = [
+                "upi_collect", "credit", "debit"]
         try:
-            session = client.checkout_sessions.create(
-                product_cart=[{"product_id": product_id, "quantity": 1}],
-                return_url=success_url,
-                cancel_url=cancel_url,
-                minimal_address=True,  # faster checkout: country + ZIP only
-                metadata={"product": "global-job-kit"},
-            )
+            session = client.checkout_sessions.create(**create_kwargs)
         except Exception as e:
             raise ProviderError(f"Dodo checkout failed: {e}")
         if not session.checkout_url:
@@ -511,7 +540,8 @@ async def create_checkout(request: Request):
             url = provider.create_checkout(
                 success_url=f"{APP_BASE_URL}/success",
                 cancel_url=f"{APP_BASE_URL}/#pricing",
-                product_id=product_id)
+                product_id=product_id,
+                currency=currency)
         else:
             url = provider.create_checkout(
                 success_url=f"{APP_BASE_URL}/success",
