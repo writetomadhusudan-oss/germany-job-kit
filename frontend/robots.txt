@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://careerkit.mindnspace.com/sitemap.xml

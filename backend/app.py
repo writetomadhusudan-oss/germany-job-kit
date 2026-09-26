@@ -500,6 +500,18 @@ def landing():
     return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
 
 
+@app.get("/robots.txt")
+def robots():
+    return FileResponse(os.path.join(FRONTEND_DIR, "robots.txt"),
+                        media_type="text/plain")
+
+
+@app.get("/sitemap.xml")
+def sitemap():
+    return FileResponse(os.path.join(FRONTEND_DIR, "sitemap.xml"),
+                        media_type="application/xml")
+
+
 @app.get("/unlock", response_class=HTMLResponse)
 def unlock():
     return FileResponse(os.path.join(FRONTEND_DIR, "unlock.html"))
