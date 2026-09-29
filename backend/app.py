@@ -506,6 +506,17 @@ app = FastAPI(title="Global Job Kit")
 app.mount("/css", StaticFiles(directory=os.path.join(FRONTEND_DIR, "css")), name="css")
 app.mount("/js", StaticFiles(directory=os.path.join(FRONTEND_DIR, "js")), name="js")
 
+
+@app.middleware("http")
+async def _no_cache_static(request, call_next):
+    # Landing page + its JS/CSS must always revalidate: Meta's in-app browser
+    # aggressively caches, and a stale page + fresh backend breaks checkout.
+    resp = await call_next(request)
+    path = request.url.path
+    if path == "/" or path.startswith(("/js/", "/css/")):
+        resp.headers["Cache-Control"] = "no-cache"
+    return resp
+
 APP_PAGES = {
     "": "index.html",  # /app hub
     "cv": "cv.html",
