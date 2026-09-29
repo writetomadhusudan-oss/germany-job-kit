@@ -26,13 +26,14 @@ import hmac
 import html
 import json
 import os
+import re
 import secrets
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy import Column, DateTime, Integer, String, create_engine
+from sqlalchemy import Boolean, Column, DateTime, Integer, String, create_engine
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import declarative_base, sessionmaker
 
@@ -104,6 +105,20 @@ class License(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
 
+class CheckoutAttempt(Base):
+    """Every Buy click: email captured on our pricing page before the buyer
+    is sent to Dodo. Lets us (a) pre-fill Dodo's checkout form and
+    (b) follow up on abandoned checkouts. converted flips True when the
+    payment.succeeded webhook arrives for the same email."""
+    __tablename__ = "checkout_attempts"
+    id = Column(Integer, primary_key=True)
+    email = Column(String(255), index=True, default="")
+    currency = Column(String(8), default="")
+    session_id = Column(String(255), default="")
+    converted = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+
+
 _engine_kwargs = {}
 if DATABASE_URL.startswith("sqlite"):
     _engine_kwargs["connect_args"] = {"check_same_thread": False}
@@ -161,6 +176,38 @@ def store_license(email: str, key: str, provider: str, external_id: str | None):
             return db.query(License).filter(
                 License.external_id == external_id).first()
         return db.query(License).filter(License.license_key == key).first()
+    finally:
+        db.close()
+
+
+def record_checkout_attempt(email: str, currency: str, session_id: str = ""):
+    """Log a Buy click before redirecting to Dodo (abandoned-checkout list)."""
+    db = SessionLocal()
+    try:
+        db.add(CheckoutAttempt(email=email or "", currency=currency or "",
+                               session_id=session_id or ""))
+        db.commit()
+    except Exception:
+        db.rollback()
+    finally:
+        db.close()
+
+
+def mark_attempt_converted(email: str):
+    """Flip the newest unconverted attempt for this email on payment."""
+    if not email:
+        return
+    db = SessionLocal()
+    try:
+        attempt = (db.query(CheckoutAttempt)
+                     .filter(CheckoutAttempt.email == email,
+                             CheckoutAttempt.converted == False)  # noqa: E712
+                     .order_by(CheckoutAttempt.id.desc()).first())
+        if attempt:
+            attempt.converted = True
+            db.commit()
+    except Exception:
+        db.rollback()
     finally:
         db.close()
 
@@ -314,13 +361,13 @@ class DodoProvider(PaymentProvider):
                             environment=DODO_PAYMENTS_ENVIRONMENT)
 
     def create_checkout(self, success_url: str, cancel_url: str, product_id: str = "",
-                        currency: str = "EUR") -> str:
+                        currency: str = "EUR", email: str = "") -> tuple:
         # Static payment-link fallback (Dashboard → Products → share link),
         # useful when you only have a dashboard link and no API key.
         product_id = product_id or DODO_PRODUCT_ID
         if (not DODO_PAYMENTS_API_KEY or not product_id) \
                 and PROVIDER_CHECKOUT_URL:
-            return PROVIDER_CHECKOUT_URL
+            return PROVIDER_CHECKOUT_URL, ""
         client = self._client()
         # Localize the checkout to the buyer's region: without these Dodo
         # defaults to a USD display (manual switcher) and hides local
@@ -334,6 +381,10 @@ class DodoProvider(PaymentProvider):
             minimal_address=True,  # faster checkout: country + ZIP only
             metadata={"product": "global-job-kit"},
         )
+        if email:
+            # Pre-fill the buyer's email on Dodo's details step so it's
+            # one tap to Continue to Payment.
+            create_kwargs["customer"] = {"email": email}
         if locale.get("billing_currency"):
             create_kwargs["billing_currency"] = locale["billing_currency"]
         if locale.get("billing_country"):
@@ -351,7 +402,7 @@ class DodoProvider(PaymentProvider):
             raise ProviderError(f"Dodo checkout failed: {e}")
         if not session.checkout_url:
             raise ProviderError("Dodo did not return a checkout URL.")
-        return session.checkout_url
+        return session.checkout_url, getattr(session, "session_id", "") or ""
 
     async def parse_webhook(self, request: Request) -> CompletedPayment | None:
         """Verify the Dodo webhook (Standard Webhooks scheme) and return a
@@ -536,26 +587,39 @@ def app_page(page: str, request: Request):
 # -------------------------------------------------------------- payments --
 @app.post("/api/checkout")
 async def create_checkout(request: Request):
-    # Optional JSON body: {"currency": "EUR"|"CAD"|"AUD"|"GBP"|"INR"} — picks
-    # the regional Dodo product so buyers check out in their local currency.
-    # Never accept a raw product id from the browser: only the allowlist.
+    # Optional JSON body: {"currency": "EUR"|"CAD"|"AUD"|"GBP"|"INR",
+    #                      "email": "buyer@example.com"} — picks the regional
+    # Dodo product so buyers check out in their local currency. The email
+    # pre-fills Dodo's details step and is logged as a checkout attempt
+    # (abandoned-checkout follow-up). Never accept a raw product id from
+    # the browser: only the allowlist.
     currency = "EUR"
+    email = ""
     try:
         body = await request.json()
-        if isinstance(body, dict) and body.get("currency"):
-            currency = str(body["currency"]).upper()
+        if isinstance(body, dict):
+            if body.get("currency"):
+                currency = str(body["currency"]).upper()
+            if body.get("email"):
+                email = str(body["email"]).strip().lower()
     except Exception:
         pass
     if currency not in DODO_PRODUCT_IDS:
         return JSONResponse({"error": "Unsupported currency."}, status_code=400)
+    if not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email):
+        return JSONResponse(
+            {"error": "Please enter a valid email address."}, status_code=400)
     product_id = DODO_PRODUCT_IDS[currency] or DODO_PRODUCT_ID
     try:
         if isinstance(provider, DodoProvider):
-            url = provider.create_checkout(
+            url, session_id = provider.create_checkout(
                 success_url=f"{APP_BASE_URL}/success",
                 cancel_url=f"{APP_BASE_URL}/#pricing",
                 product_id=product_id,
-                currency=currency)
+                currency=currency,
+                email=email)
+            record_checkout_attempt(email=email, currency=currency,
+                                    session_id=session_id)
         else:
             url = provider.create_checkout(
                 success_url=f"{APP_BASE_URL}/success",
@@ -589,6 +653,7 @@ async def webhook(request: Request):
     if event:
         store_license(email=event.email, key=generate_license_key(),
                       provider=provider.name, external_id=event.external_id)
+        mark_attempt_converted(event.email)
     return {"received": True}
 
 

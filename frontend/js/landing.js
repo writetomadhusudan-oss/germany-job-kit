@@ -28,14 +28,21 @@ function refreshPrice() {
 async function buy() {
   const btn = document.getElementById('buyBtn');
   const err = document.getElementById('buyError');
+  const emailInput = document.getElementById('buyEmail');
   err.textContent = '';
+  const email = (emailInput.value || '').trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    err.textContent = 'Please enter a valid email — it pre-fills your secure checkout.';
+    emailInput.focus();
+    return;
+  }
   btn.disabled = true;
   btn.textContent = 'Opening secure checkout…';
   try {
     const res = await fetch('/api/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ currency })
+      body: JSON.stringify({ currency, email })
     });
     const data = await res.json();
     if (!res.ok || !data.url) {
