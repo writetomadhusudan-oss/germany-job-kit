@@ -7,6 +7,37 @@ function esc(s) {
 }
 function val(id) { return $(id).value.trim(); }
 
+// Parse a German date. Accepts "DD.MM.YYYY", "D.M.YYYY" and 8 plain digits
+// ("01012027" -> "01.01.2027"). Returns the normalized "DD.MM.YYYY" string,
+// or null when the input is empty or not a real calendar date.
+function parseDEDate(raw) {
+  const s = String(raw == null ? '' : raw).trim();
+  if (!s) return null;
+  let d, m, y;
+  if (/^\d{8}$/.test(s)) {
+    d = +s.slice(0, 2); m = +s.slice(2, 4); y = +s.slice(4, 8);
+  } else {
+    const mt = s.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
+    if (!mt) return null;
+    d = +mt[1]; m = +mt[2]; y = +mt[3];
+  }
+  if (y < 1900 || y > 2100 || m < 1 || m > 12 || d < 1) return null;
+  if (d > new Date(y, m, 0).getDate()) return null; // e.g. 30.02. or 31.04.
+  const p2 = n => String(n).padStart(2, '0');
+  return p2(d) + '.' + p2(m) + '.' + y;
+}
+
+function setDateError(fieldId, raw, norm) {
+  const err = $(fieldId + '_err');
+  const bad = raw !== '' && norm === null;
+  if (err) {
+    err.style.display = bad ? 'block' : 'none';
+    if (bad) err.textContent = 'Please enter a valid date as DD.MM.YYYY.';
+  }
+  const field = $(fieldId);
+  if (field) field.style.borderColor = bad ? '#c0392b' : '';
+}
+
 function render() {
   const name = val('c_name') || 'Ihr Name';
   const sender = [name, val('c_street') && val('c_city') ? val('c_street') + ', ' + val('c_city') : (val('c_street') || val('c_city')),
@@ -28,15 +59,22 @@ function render() {
   }
   const extras = [];
   if (val('c_salary')) extras.push('meine Gehaltsvorstellung beträgt <strong>' + esc(val('c_salary')) + ' €</strong> brutto pro Jahr');
-  if (val('c_start')) extras.push('mein frühestmöglicher Eintrittstermin ist der <strong>' + esc(val('c_start')) + '</strong>');
+  const startRaw = val('c_start');
+  const startDate = parseDEDate(startRaw);
+  setDateError('c_start', startRaw, startDate);
+  if (startDate) extras.push('mein frühestmöglicher Eintrittstermin ist der <strong>' + esc(startDate) + '</strong>');
   if (val('c_notice')) extras.push('meine Kündigungsfrist beträgt <strong>' + esc(val('c_notice')) + '</strong>');
   if (extras.length) p.push('Für Ihre Planung: ' + extras.join('; ') + '.');
   p.push('Ich würde mich freuen, meine Bewerbung in einem persönlichen Gespräch oder per Videoanruf mit Ihnen zu besprechen.');
 
+  const dateRaw = val('c_date');
+  const dateNorm = parseDEDate(dateRaw);
+  setDateError('c_date', dateRaw, dateNorm);
+
   const h =
     '<div class="sender">' + sender + '</div>' +
     '<div style="margin-top:18px">' + recip.map(esc).join('<br>') + '</div>' +
-    '<div class="date">' + esc([val('c_place'), val('c_date')].filter(Boolean).join(', ')) + '</div>' +
+    '<div class="date">' + esc([val('c_place'), dateNorm].filter(Boolean).join(', ')) + '</div>' +
     '<div class="subject">Bewerbung für die Stelle als ' + esc(role) + '</div>' +
     '<p>' + sal + '</p>' +
     p.map(x => '<p>' + x + '</p>').join('') +
@@ -45,6 +83,17 @@ function render() {
 }
 
 document.querySelectorAll('input,textarea').forEach(el => el.addEventListener('input', render));
+
+// Auto-format date fields as the user types: 8 digits become DD.MM.YYYY.
+['c_date', 'c_start'].forEach(id => {
+  $(id).addEventListener('input', () => {
+    const el = $(id);
+    if (/^\d{8}$/.test(el.value)) {
+      el.value = el.value.slice(0, 2) + '.' + el.value.slice(2, 4) + '.' + el.value.slice(4);
+      render();
+    }
+  });
+});
 
 $('fillSample').addEventListener('click', () => {
   const s = {

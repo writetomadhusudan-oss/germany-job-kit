@@ -3,7 +3,7 @@ const $ = (id) => document.getElementById(id);
 
 function esc(s) {
   return String(s == null ? '' : s)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 let expCounter = 0, eduCounter = 0, langCounter = 0;
@@ -46,7 +46,7 @@ function addEdu(data) {
   render();
 }
 
-const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'Native'];
+const CEFR = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'Muttersprache'];
 function addLang(data) {
   data = data || {};
   const div = document.createElement('div');
@@ -73,7 +73,7 @@ function collect(sel, keys) {
 
 function render() {
   const v = (id) => $(id).value.trim();
-  const name = v('f_name') || 'Your Name';
+  const name = v('f_name') || 'Ihr Name';
   const contact = [v('f_street') && v('f_city') ? v('f_street') + ', ' + v('f_city') : (v('f_street') || v('f_city')),
                    v('f_phone'), v('f_email'), v('f_linkedin')].filter(Boolean).join(' &nbsp;|&nbsp; ');
   const exps = collect('.exp-entry', ['title', 'company', 'city', 'start', 'end', 'bullets']);
@@ -86,9 +86,9 @@ function render() {
   let h = '<h1>' + esc(name) + '</h1>';
   if (v('f_title')) h += '<p><strong>' + esc(v('f_title')) + '</strong></p>';
   if (contact) h += '<div class="contact">' + contact + '</div>';
-  if (summary) h += '<h2>Profile</h2><p>' + esc(summary) + '</p>';
+  if (summary) h += '<h2>Profil</h2><p>' + esc(summary) + '</p>';
   if (exps.length) {
-    h += '<h2>Professional Experience</h2>';
+    h += '<h2>Berufserfahrung</h2>';
     exps.forEach(e => {
       const where = [e.company, e.city].filter(Boolean).join(', ');
       const when = [e.start, e.end].filter(Boolean).join(' – ');
@@ -98,15 +98,15 @@ function render() {
     });
   }
   if (edus.length) {
-    h += '<h2>Education</h2>';
+    h += '<h2>Ausbildung</h2>';
     edus.forEach(e => {
       h += '<div class="job-head"><span>' + esc(e.degree) + '</span><span>' + esc(e.meta) + '</span></div>';
       if (e.inst) h += '<p>' + esc(e.inst) + '</p>';
     });
   }
-  if (skills.length) h += '<h2>Skills</h2><p>' + esc(skills.join(', ')) + '</p>';
-  if (langs.length) h += '<h2>Languages</h2><p>' + langs.map(l => esc(l.lang) + ' — ' + esc(l.level)).join('<br>') + '</p>';
-  if (certs.length) h += '<h2>Certifications</h2><ul>' + certs.map(c => '<li>' + esc(c) + '</li>').join('') + '</ul>';
+  if (skills.length) h += '<h2>Kenntnisse</h2><p>' + esc(skills.join(', ')) + '</p>';
+  if (langs.length) h += '<h2>Sprachen</h2><p>' + langs.map(l => esc(l.lang) + ' — ' + esc(l.level)).join('<br>') + '</p>';
+  if (certs.length) h += '<h2>Zertifikate</h2><ul>' + certs.map(c => '<li>' + esc(c) + '</li>').join('') + '</ul>';
   $('cvPreview').innerHTML = h;
 }
 
@@ -120,21 +120,21 @@ $('fillSample').addEventListener('click', () => {
   $('f_name').value = 'Priya Sharma';
   $('f_title').value = 'SAP SuccessFactors Consultant';
   $('f_street').value = 'MG Road 42';
-  $('f_city').value = '560001 Bengaluru, India';
+  $('f_city').value = '560001 Bengaluru, Indien';
   $('f_phone').value = '+91 98765 43210';
   $('f_email').value = 'priya.sharma@example.com';
   $('f_linkedin').value = 'linkedin.com/in/priyasharma';
-  $('f_summary').value = 'SAP SuccessFactors consultant with 8 years of experience across Employee Central and Recruiting. Led 5 full-cycle implementations for manufacturing and retail clients (50–5,000 employees). Seeking a consultant role in Germany.';
+  $('f_summary').value = 'SAP SuccessFactors-Beraterin mit 8 Jahren Erfahrung in Employee Central und Recruiting. Hat 5 vollständige Implementierungen für Fertigungs- und Einzelhandelskunden (50–5.000 Mitarbeiter) geleitet. Sucht eine Beraterstelle in Deutschland.';
   $('expList').innerHTML = ''; $('eduList').innerHTML = ''; $('langList').innerHTML = '';
   addExp({title:'Senior SAP SuccessFactors Consultant', company:'TechMahindra Consulting', city:'Bengaluru',
-    start:'06/2021', end:'present',
-    bullets:'Led Employee Central implementation for a 5,000-employee retail client; go-live 2 weeks early\nCut onboarding ticket volume by 35% by redesigning recruiting workflows\nMentored 4 junior consultants; ran client workshops in English'});
+    start:'06/2021', end:'heute',
+    bullets:'Employee Central-Einführung für einen Einzelhandelskunden mit 5.000 Mitarbeitern geleitet; Go-live 2 Wochen früher als geplant\nOnboarding-Ticketvolumen um 35 % durch Neugestaltung der Recruiting-Workflows gesenkt\n4 Junior-Berater betreut; Kundenworkshops auf Englisch durchgeführt'});
   addExp({title:'SAP HCM Consultant', company:'Infosys BPM', city:'Bengaluru',
     start:'07/2017', end:'05/2021',
-    bullets:'Supported payroll and time management for 12,000 employees across 3 countries\nAutomated monthly HR reports with SQL, saving ~20 hours/month'});
-  addEdu({degree:'B.E. Computer Science', inst:'Visvesvaraya Technological University', meta:'Bengaluru, 2017'});
-  addLang({lang:'English', level:'C1'}); addLang({lang:'German', level:'A2'}); addLang({lang:'Hindi', level:'Native'});
-  $('f_skills').value = 'SAP SuccessFactors EC, Recruiting, SAP HCM, SQL, Agile/Scrum, Client workshops';
+    bullets:'Payroll und Zeitwirtschaft für 12.000 Mitarbeiter in 3 Ländern betreut\nMonatliche HR-Berichte mit SQL automatisiert, ca. 20 Stunden pro Monat eingespart'});
+  addEdu({degree:'Bachelor of Engineering — Informatik', inst:'Visvesvaraya Technological University', meta:'Bengaluru, 2017'});
+  addLang({lang:'Englisch', level:'C1'}); addLang({lang:'Deutsch', level:'A2'}); addLang({lang:'Hindi', level:'Muttersprache'});
+  $('f_skills').value = 'SAP SuccessFactors EC, Recruiting, SAP HCM, SQL, Agile/Scrum, Kundenworkshops';
   $('f_certs').value = 'SAP Certified Application Associate — SuccessFactors Employee Central (2023)';
   render();
 });
@@ -146,5 +146,5 @@ $('clearAll').addEventListener('click', () => {
 });
 
 // start with one empty row of each
-addExp(); addEdu(); addLang({lang:'English', level:'C1'});
+addExp(); addEdu(); addLang({lang:'Englisch', level:'C1'});
 render();
