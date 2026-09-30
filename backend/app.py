@@ -712,6 +712,19 @@ def _success_page_inner(body_html: str, key: str | None) -> HTMLResponse:
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Payment successful — Global Job Kit</title>
+<!-- Meta Pixel: same Pixel ID as the landing page (replace YOUR_PIXEL_ID). -->
+<script>
+!function(f,b,e,v,n,t,s)
+{{if(f.fbq)return;n=f.fbq=function(){{n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)}};
+if(!n._version)n._version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
 <link rel="stylesheet" href="/css/style.css"></head>
 <body><div class="wrap narrow">
 <header class="topbar"><a class="brand" href="/">Global <span>Job Kit</span></a></header>
@@ -762,7 +775,8 @@ def success(session_id: str = "", order_id: str = "", payment_id: str = ""):
 <div class="keybox">{key}</div>
 <button class="btn" onclick="copyKey('{key}');this.textContent='Copied!'">Copy key</button>
 <p><a class="btn primary" href="/app">Open your tools →</a></p>
-<p class="muted small">A receipt was emailed by the payment provider.</p>"""
+<p class="muted small">A receipt was emailed by the payment provider.</p>
+<script>try {{ if (window.fbq) fbq('track', 'Purchase'); }} catch (e) {{}}</script>"""
         return _success_page_inner(body, lic.license_key)
 
     # Dodo (default) and other non-Stripe providers
@@ -781,6 +795,9 @@ async function poll() {{
     if (r.ok) {{
       const d = await r.json();
       document.getElementById('keybox').textContent = d.key;
+      // Payment confirmed + license minted: record the Purchase for
+      // retargeting (InitiateCheckout without Purchase = abandoned cart).
+      try {{ if (window.fbq) fbq('track', 'Purchase'); }} catch (e) {{}}
       // verify to set the unlock cookie, then show the button
       const v = await fetch('/api/verify', {{method:'POST', headers:{{'Content-Type':'application/json'}}, body: JSON.stringify({{key: d.key}})}});
       if (v.ok) document.getElementById('openTools').style.display = 'inline-block';

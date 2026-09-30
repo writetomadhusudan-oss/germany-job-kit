@@ -1,10 +1,10 @@
 /* Landing buy flow — region-aware pricing. One bundle, local currency per region. */
 const PRICES = {
-  EUR: { label: '€5.99', name: 'Europe' },
-  GBP: { label: '£4.99', name: 'United Kingdom' },
-  CAD: { label: 'CAD 7.99', name: 'Canada' },
-  AUD: { label: 'AUD 8.99', name: 'Australia' },
-  INR: { label: '₹499', name: 'India' }
+  EUR: { label: '€5.99', name: 'Europe', value: 5.99 },
+  GBP: { label: '£4.99', name: 'United Kingdom', value: 4.99 },
+  CAD: { label: 'CAD 7.99', name: 'Canada', value: 7.99 },
+  AUD: { label: 'AUD 8.99', name: 'Australia', value: 8.99 },
+  INR: { label: '₹499', name: 'India', value: 499 }
 };
 /* Default region: INR — virtually all traffic (ads + organic) is India.
    Visitors can switch region with the buttons; the choice is remembered. */
@@ -47,6 +47,10 @@ async function buy() {
   }
   btn.disabled = true;
   btn.textContent = 'Opening secure checkout…';
+  // Meta Pixel: every Buy click = InitiateCheckout. Lets us retarget people
+  // who reached the payment step but didn't finish. Guarded: no-op until a
+  // real Pixel ID is set in index.html.
+  try { if (window.fbq) fbq('track', 'InitiateCheckout', { value: (PRICES[currency] || {}).value || 0, currency: currency }); } catch (e) {}
   try {
     const res = await fetch('/api/checkout', {
       method: 'POST',

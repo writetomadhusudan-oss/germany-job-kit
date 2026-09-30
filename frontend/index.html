@@ -10,13 +10,27 @@
   gtag('config', 'G-G3CENRDXZT');
 </script>
 <meta charset="utf-8">
+<!-- Meta Pixel: replace YOUR_PIXEL_ID with the numeric Pixel ID from
+     Meta Events Manager (free). Until then fbq calls are harmless no-ops. -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!n._version)n._version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'YOUR_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127758;</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Global Job Kit — Land Your IT Job in Germany, France, Canada, Australia, UK &amp; the Netherlands</title>
 <meta name="description" content="CV/resume builders, cover letter generators, visa eligibility checkers, application tracker and complete guides for six countries — everything an IT professional needs to get hired abroad. One-time payment, lifetime access.">
 <!-- Bump ?v= on the css/js URLs below after EVERY frontend change:
      it forces browsers (esp. Meta's in-app browser) past their cache. -->
-<link rel="stylesheet" href="/css/style.css?v=4">
+<link rel="stylesheet" href="/css/style.css?v=5">
 <style>
 .region-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
 .region-btn{background:#f5f5f5;border:2px solid #ddd;border-radius:999px;padding:8px 16px;font-size:14px;cursor:pointer}
@@ -150,6 +164,6 @@
     <p>© 2026 Global Job Kit · Built by Madhusudan Purushothaman · <a href="mailto:contact@mindnspace.com">contact@mindnspace.com</a><br>General information only — not legal advice. Visa figures must be re-verified at official sources.</p>
   </footer>
 </div>
-<script src="/js/landing.js?v=4"></script>
+<script src="/js/landing.js?v=5"></script>
 </body>
 </html>
