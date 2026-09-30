@@ -31,8 +31,8 @@ function render() {
   if (val('c_vous')) p.push('<strong>Vous</strong> — ' + esc(val('c_vous')));
   if (val('c_je')) p.push('<strong>Je</strong> — ' + esc(val('c_je')));
   if (strengths.length) p.push('Mes atouts pour ce poste :<br>– ' + strengths.map(esc).join('<br>– '));
-  if (val('c_start')) p.push(esc(val('c_start')) + ', je serais ravie de pouvoir échanger avec vous sur ma candidature, en personne ou en visioconférence.');
-  else p.push('Je serais ravie de pouvoir échanger avec vous sur ma candidature, en personne ou en visioconférence.');
+  if (val('c_start')) p.push(esc(val('c_start')) + '. Je me tiens à votre entière disposition pour un entretien, en personne ou en visioconférence.');
+  else p.push('Je me tiens à votre entière disposition pour un entretien, en personne ou en visioconférence.');
 
   const h =
     '<div class="sender">' + sender + '</div>' +
