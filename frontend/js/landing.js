@@ -21,6 +21,10 @@ function refreshPrice() {
   });
   const big = document.querySelector('.price-big');
   if (big) big.innerHTML = p.label + ' <small>one-time</small>';
+  // Honest tax note: Dodo adds 18% GST for India at checkout (₹499 + ₹89.82).
+  // Other regions' tax handling is unverified, so only INR gets the note.
+  const taxNote = document.getElementById('taxNote');
+  if (taxNote) taxNote.textContent = currency === 'INR' ? '+ GST' : '';
   const btn = document.getElementById('buyBtn');
   if (btn && !btn.disabled) btn.textContent = 'Buy now — ' + p.label;
   document.querySelectorAll('.region-btn').forEach(b => b.classList.toggle('active', b.dataset.cur === currency));
