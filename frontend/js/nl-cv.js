@@ -57,7 +57,7 @@ function collect(sel, keys) {
 
 function render() {
   const v = (id) => $(id).value.trim();
-  const name = v('f_name') || 'Your Name';
+  const name = v('f_name') || 'Uw naam';
   const contact = [v('f_city'), v('f_phone'), v('f_email'), v('f_linkedin')].filter(Boolean).join(' &nbsp;|&nbsp; ');
   const exps = collect('.exp-entry', ['title', 'company', 'city', 'start', 'end', 'bullets']);
   const edus = collect('.edu-entry', ['degree', 'inst', 'meta']);
@@ -116,18 +116,18 @@ $('fillSample').addEventListener('click', () => {
   $('f_phone').value = '+31 6 1234 5678';
   $('f_email').value = 'priya.sharma@example.com';
   $('f_linkedin').value = 'linkedin.com/in/priyasharma';
-  $('f_summary').value = 'SAP SuccessFactors consultant with 8 years of experience across Employee Central and Recruiting. Led 5 full-cycle implementations for manufacturing and retail clients (50–5,000 employees). Relocating to the Netherlands under the Highly Skilled Migrant scheme; available with short notice.';
+  $('f_summary').value = 'SAP SuccessFactors-consultant met 8 jaar ervaring in Employee Central en Recruiting. Heeft 5 volledige implementaties geleid voor productie- en retailklanten (50–5.000 medewerkers). Verhuist naar Nederland via de kennismigrantenregeling; op korte termijn beschikbaar.';
   $('expList').innerHTML = ''; $('eduList').innerHTML = '';
   addExp({title:'Senior SAP SuccessFactors Consultant', company:'TechMahindra Consulting', city:'Bengaluru, India',
-    start:'06/2021', end:'Present',
-    bullets:'Led Employee Central implementation for a 5,000-employee retail client; go-live 2 weeks early\nCut onboarding ticket volume by 35% by redesigning recruiting workflows\nMentored 4 junior consultants; ran client workshops in English'});
+    start:'06/2021', end:'heden',
+    bullets:'Employee Central-implementatie geleid voor een retailklant met 5.000 medewerkers; go-live 2 weken eerder dan gepland\nAantal onboarding-tickets met 35% verminderd door herontwerp van de wervingsworkflows\n4 junior consultants begeleid; klantworkshops in het Engels gegeven'});
   addExp({title:'SAP HCM Consultant', company:'Infosys BPM', city:'Bengaluru, India',
     start:'07/2017', end:'05/2021',
-    bullets:'Supported payroll and time management for 12,000 employees across 3 countries\nAutomated monthly HR reports with SQL, saving ~20 hours/month'});
-  addEdu({degree:'Bachelor of Engineering — Computer Science', inst:'Visvesvaraya Technological University', meta:'Bengaluru, India, 2017'});
-  $('f_skills').value = 'SAP SuccessFactors EC, Recruiting, SAP HCM, SQL, Agile/Scrum, Client workshops';
+    bullets:'Payroll en tijdregistratie ondersteund voor 12.000 medewerkers in 3 landen\nMaandelijkse HR-rapportages geautomatiseerd met SQL, ca. 20 uur per maand bespaard'});
+  addEdu({degree:'Bachelor of Engineering — Informatica', inst:'Visvesvaraya Technological University', meta:'Bengaluru, India, 2017'});
+  $('f_skills').value = 'SAP SuccessFactors EC, Recruiting, SAP HCM, SQL, Agile/Scrum, klantworkshops';
   $('f_certs').value = 'SAP Certified Application Associate — SuccessFactors Employee Central (2023)';
-  $('f_langs').value = 'English — fluent (C1)\nDutch — beginner (A2, currently learning)\nHindi — native';
+  $('f_langs').value = 'Engels — vloeiend (C1)\nNederlands — beginner (A2, momenteel in opleiding)\nHindi — moedertaal';
   $('f_photo').value = ''; photoData = '';
   render();
 });
