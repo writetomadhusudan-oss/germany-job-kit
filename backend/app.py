@@ -600,11 +600,12 @@ def app_page(page: str, request: Request):
 async def create_checkout(request: Request):
     # Optional JSON body: {"currency": "EUR"|"CAD"|"AUD"|"GBP"|"INR",
     #                      "email": "buyer@example.com"} — picks the regional
-    # Dodo product so buyers check out in their local currency. The email
-    # pre-fills Dodo's details step and is logged as a checkout attempt
-    # (abandoned-checkout follow-up). Never accept a raw product id from
-    # the browser: only the allowlist.
-    currency = "EUR"
+    # Dodo product so buyers check out in their local currency. The email is
+    # optional: when supplied it pre-fills Dodo's details step and is logged
+    # as a checkout attempt (abandoned-checkout follow-up); when blank the
+    # buyer simply types it on Dodo's form. Never accept a raw product id
+    # from the browser: only the allowlist.
+    currency = "INR"
     email = ""
     try:
         body = await request.json()
@@ -617,7 +618,7 @@ async def create_checkout(request: Request):
         pass
     if currency not in DODO_PRODUCT_IDS:
         return JSONResponse({"error": "Unsupported currency."}, status_code=400)
-    if not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email):
+    if email and not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email):
         return JSONResponse(
             {"error": "Please enter a valid email address."}, status_code=400)
     product_id = DODO_PRODUCT_IDS[currency] or DODO_PRODUCT_ID

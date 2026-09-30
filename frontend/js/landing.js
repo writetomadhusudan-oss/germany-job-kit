@@ -6,7 +6,9 @@ const PRICES = {
   AUD: { label: 'AUD 8.99', name: 'Australia' },
   INR: { label: '₹499', name: 'India' }
 };
-let currency = 'EUR';
+/* Default region: INR — virtually all traffic (ads + organic) is India.
+   Visitors can switch region with the buttons; the choice is remembered. */
+let currency = 'INR';
 try {
   const saved = localStorage.getItem('gjk_currency');
   if (saved && PRICES[saved]) currency = saved;
@@ -31,8 +33,11 @@ async function buy() {
   const emailInput = document.getElementById('buyEmail');
   err.textContent = '';
   const email = (emailInput.value || '').trim().toLowerCase();
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-    err.textContent = 'Please enter a valid email — it pre-fills your secure checkout.';
+  // Email is optional: it only pre-fills the Dodo checkout. If the visitor
+  // typed something, it must be a valid address; if blank, we proceed
+  // without it rather than blocking the purchase.
+  if (email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    err.textContent = 'That email doesn\u2019t look right \u2014 fix it, or leave it blank to continue.';
     emailInput.focus();
     return;
   }
