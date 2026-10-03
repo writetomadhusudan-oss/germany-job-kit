@@ -505,6 +505,27 @@ app = FastAPI(title="Global Job Kit")
 
 app.mount("/css", StaticFiles(directory=os.path.join(FRONTEND_DIR, "css")), name="css")
 app.mount("/js", StaticFiles(directory=os.path.join(FRONTEND_DIR, "js")), name="js")
+app.mount("/images", StaticFiles(directory=os.path.join(FRONTEND_DIR, "images")), name="images")
+
+
+@app.exception_handler(404)
+async def not_found_page(request: Request, exc):
+    # Branded HTML 404 for page visits; API routes return their own JSON 404s.
+    return HTMLResponse(
+        """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — Global Job Kit</title>
+<link rel="stylesheet" href="/css/style.css?v=6"></head>
+<body><div class="wrap narrow"><header class="topbar">
+<a class="brand" href="/">Global <span>Job Kit</span></a></header>
+<main class="card" style="text-align:center;padding:48px 24px">
+<h1>This page is gone, but we can help.</h1>
+<p class="muted">The link you followed doesn't exist or was moved.</p>
+<p><a class="btn gold" href="/">Back to the homepage</a>
+<a class="btn" href="/unlock" style="margin-left:8px">I have a key</a></p>
+</main></div></body></html>""",
+        status_code=404,
+    )
 
 
 @app.middleware("http")
@@ -577,6 +598,11 @@ def sitemap():
 @app.get("/unlock", response_class=HTMLResponse)
 def unlock():
     return FileResponse(os.path.join(FRONTEND_DIR, "unlock.html"))
+
+
+@app.get("/privacy", response_class=HTMLResponse)
+def privacy():
+    return FileResponse(os.path.join(FRONTEND_DIR, "privacy.html"))
 
 
 @app.get("/app")
