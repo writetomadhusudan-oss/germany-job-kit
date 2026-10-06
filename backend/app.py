@@ -612,11 +612,24 @@ def app_hub(request: Request):
     return _page(APP_PAGES[""])
 
 
+# Visa eligibility checkers are free lead magnets: no license required.
+# Everything else under /app/* (builders, guides, tracker, hub) stays gated.
+FREE_PAGES = {
+    "chancenkarte",       # Germany: Chancenkarte points calculator
+    "blue-card",          # Germany: EU Blue Card checker
+    "fr/passeport-talent",  # France: Passeport Talent checker
+    "ca/crs",             # Canada: Express Entry CRS calculator
+    "au/skillselect",     # Australia: SkillSelect points calculator
+    "uk/skilled-worker",  # UK: Skilled Worker checker
+    "nl/hsm",             # Netherlands: Highly Skilled Migrant checker
+}
+
+
 @app.get("/app/{page:path}")
 def app_page(page: str, request: Request):
     if page not in APP_PAGES or page == "":
         return JSONResponse({"error": "not found"}, status_code=404)
-    if not cookie_grants_access(request.cookies.get(COOKIE_NAME)):
+    if page not in FREE_PAGES and not cookie_grants_access(request.cookies.get(COOKIE_NAME)):
         return RedirectResponse("/unlock", status_code=302)
     return _page(APP_PAGES[page])
 
